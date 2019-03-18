@@ -60,10 +60,15 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Labs\FirstLab\FirstLab.cs" />
+    <Compile Include="Labs\FirstLab\FirstLabParameters.cs" />
+    <Compile Include="Labs\LabBase.cs" />
+    <Compile Include="Labs\LabParameters.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\DoublePoint2D.cs" />
     <Compile Include="Utils\Drawer.cs" />
+    <Compile Include="Utils\Line3Point.cs" />
     <Compile Include="Utils\Point2D.cs" />
     <Compile Include="Utils\Vector2D.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -93,8 +98,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Labs\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
