@@ -2,14 +2,14 @@
 {
     public struct Line3Points
     {
-        public double A { get; }
-        public double B { get; }
-        public double C { get; }
+        public float Ay { get; }
+        public float Bx { get; }
+        public float C { get; }
 
-        public Line3Points(double a, double b, double c)
+        public Line3Points(float ay, float bx, float c)
         {
-            A = a;
-            B = b;
+            Ay = ay;
+            Bx = bx;
             C = c;
         }
     }
