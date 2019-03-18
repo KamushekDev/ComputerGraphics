@@ -43,13 +43,11 @@
             // 
             // pbScene
             // 
-            this.pbScene.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.pbScene.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pbScene.Location = new System.Drawing.Point(9, 10);
             this.pbScene.Margin = new System.Windows.Forms.Padding(2);
             this.pbScene.Name = "pbScene";
-            this.pbScene.Size = new System.Drawing.Size(468, 453);
+            this.pbScene.Size = new System.Drawing.Size(501, 501);
             this.pbScene.TabIndex = 0;
             this.pbScene.TabStop = false;
             this.toolTip.SetToolTip(this.pbScene, "sd");
@@ -61,7 +59,7 @@
             this.lblFirstCircle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblFirstCircle.AutoSize = true;
             this.lblFirstCircle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lblFirstCircle.Location = new System.Drawing.Point(530, 10);
+            this.lblFirstCircle.Location = new System.Drawing.Point(569, 10);
             this.lblFirstCircle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblFirstCircle.Name = "lblFirstCircle";
             this.lblFirstCircle.Size = new System.Drawing.Size(55, 13);
@@ -72,7 +70,7 @@
             // 
             this.tbFirstX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tbFirstX.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbFirstX.Location = new System.Drawing.Point(482, 29);
+            this.tbFirstX.Location = new System.Drawing.Point(519, 28);
             this.tbFirstX.Margin = new System.Windows.Forms.Padding(2);
             this.tbFirstX.Name = "tbFirstX";
             this.tbFirstX.Size = new System.Drawing.Size(76, 20);
@@ -82,7 +80,7 @@
             // 
             this.tbFirstY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tbFirstY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbFirstY.Location = new System.Drawing.Point(561, 29);
+            this.tbFirstY.Location = new System.Drawing.Point(598, 28);
             this.tbFirstY.Margin = new System.Windows.Forms.Padding(2);
             this.tbFirstY.Name = "tbFirstY";
             this.tbFirstY.Size = new System.Drawing.Size(76, 20);
@@ -92,7 +90,7 @@
             // 
             this.tbFirstRadius.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tbFirstRadius.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbFirstRadius.Location = new System.Drawing.Point(482, 52);
+            this.tbFirstRadius.Location = new System.Drawing.Point(519, 52);
             this.tbFirstRadius.Margin = new System.Windows.Forms.Padding(2);
             this.tbFirstRadius.Name = "tbFirstRadius";
             this.tbFirstRadius.Size = new System.Drawing.Size(155, 20);
@@ -102,7 +100,7 @@
             // 
             this.tbSecondRadius.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tbSecondRadius.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbSecondRadius.Location = new System.Drawing.Point(482, 136);
+            this.tbSecondRadius.Location = new System.Drawing.Point(519, 136);
             this.tbSecondRadius.Margin = new System.Windows.Forms.Padding(2);
             this.tbSecondRadius.Name = "tbSecondRadius";
             this.tbSecondRadius.Size = new System.Drawing.Size(155, 20);
@@ -112,7 +110,7 @@
             // 
             this.tbSecondY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tbSecondY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbSecondY.Location = new System.Drawing.Point(561, 114);
+            this.tbSecondY.Location = new System.Drawing.Point(598, 114);
             this.tbSecondY.Margin = new System.Windows.Forms.Padding(2);
             this.tbSecondY.Name = "tbSecondY";
             this.tbSecondY.Size = new System.Drawing.Size(76, 20);
@@ -122,7 +120,7 @@
             // 
             this.tbSecondX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tbSecondX.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbSecondX.Location = new System.Drawing.Point(482, 114);
+            this.tbSecondX.Location = new System.Drawing.Point(519, 114);
             this.tbSecondX.Margin = new System.Windows.Forms.Padding(2);
             this.tbSecondX.Name = "tbSecondX";
             this.tbSecondX.Size = new System.Drawing.Size(76, 20);
@@ -133,7 +131,7 @@
             this.lblSecondCircle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSecondCircle.AutoSize = true;
             this.lblSecondCircle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lblSecondCircle.Location = new System.Drawing.Point(524, 98);
+            this.lblSecondCircle.Location = new System.Drawing.Point(560, 98);
             this.lblSecondCircle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblSecondCircle.Name = "lblSecondCircle";
             this.lblSecondCircle.Size = new System.Drawing.Size(73, 13);
@@ -144,7 +142,7 @@
             // 
             this.tbAdditional.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.tbAdditional.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbAdditional.Location = new System.Drawing.Point(482, 445);
+            this.tbAdditional.Location = new System.Drawing.Point(519, 487);
             this.tbAdditional.Margin = new System.Windows.Forms.Padding(2);
             this.tbAdditional.Name = "tbAdditional";
             this.tbAdditional.Size = new System.Drawing.Size(155, 20);
@@ -152,10 +150,11 @@
             // 
             // btnDraw
             // 
-            this.btnDraw.Location = new System.Drawing.Point(482, 176);
+            this.btnDraw.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDraw.Location = new System.Drawing.Point(519, 175);
             this.btnDraw.Margin = new System.Windows.Forms.Padding(2);
             this.btnDraw.Name = "btnDraw";
-            this.btnDraw.Size = new System.Drawing.Size(154, 24);
+            this.btnDraw.Size = new System.Drawing.Size(155, 24);
             this.btnDraw.TabIndex = 10;
             this.btnDraw.Text = "Draw";
             this.btnDraw.UseVisualStyleBackColor = true;
@@ -163,8 +162,9 @@
             // 
             // lblWidth
             // 
+            this.lblWidth.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblWidth.AutoSize = true;
-            this.lblWidth.Location = new System.Drawing.Point(542, 405);
+            this.lblWidth.Location = new System.Drawing.Point(579, 405);
             this.lblWidth.Name = "lblWidth";
             this.lblWidth.Size = new System.Drawing.Size(35, 13);
             this.lblWidth.TabIndex = 11;
@@ -172,8 +172,9 @@
             // 
             // lblHeight
             // 
+            this.lblHeight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblHeight.AutoSize = true;
-            this.lblHeight.Location = new System.Drawing.Point(542, 425);
+            this.lblHeight.Location = new System.Drawing.Point(577, 425);
             this.lblHeight.Name = "lblHeight";
             this.lblHeight.Size = new System.Drawing.Size(38, 13);
             this.lblHeight.TabIndex = 12;
@@ -191,7 +192,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(643, 479);
+            this.ClientSize = new System.Drawing.Size(682, 521);
             this.Controls.Add(this.lblHeight);
             this.Controls.Add(this.lblWidth);
             this.Controls.Add(this.btnDraw);
@@ -205,9 +206,10 @@
             this.Controls.Add(this.tbFirstX);
             this.Controls.Add(this.lblFirstCircle);
             this.Controls.Add(this.pbScene);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.MaximumSize = new System.Drawing.Size(659, 518);
-            this.MinimumSize = new System.Drawing.Size(659, 518);
+            this.MaximumSize = new System.Drawing.Size(1000, 700);
+            this.MinimumSize = new System.Drawing.Size(16, 518);
             this.Name = "Form1";
             this.Text = "Tuturu";
             ((System.ComponentModel.ISupportInitialize)(this.pbScene)).EndInit();
