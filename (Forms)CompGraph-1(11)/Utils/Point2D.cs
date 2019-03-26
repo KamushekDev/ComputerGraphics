@@ -32,5 +32,10 @@ namespace _Forms_CompGraph_1_11_.Utils
         {
             return new Point2D(point.X * factor, point.Y * factor);
         }
+
+        public static DoublePoint2D operator *(Point2D point, float factor)
+        {
+            return new DoublePoint2D(point.X * factor, point.Y * factor);
+        }
     }
 }

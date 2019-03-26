@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using _Forms_CompGraph_1_11_.Labs;
 using _Forms_CompGraph_1_11_.Labs.FirstLab;
+using _Forms_CompGraph_1_11_.Labs.SecondLab;
 using _Forms_CompGraph_1_11_.Utils;
 
 namespace _Forms_CompGraph_1_11_
@@ -28,14 +29,15 @@ namespace _Forms_CompGraph_1_11_
             tbSecondY.Text = "0";
             tbSecondRadius.Text = "70";
 
-            tbAdditional.Text = "0";
+            tbAdditional.Text = "2";
 
             #endregion
 
             _image = new Bitmap(pbScene.Size.Width, pbScene.Size.Height);
             _center = new Point(pbScene.Size.Width / 2, pbScene.Size.Height / 2);
 
-            SetDefaultsForFirstLab();
+            //SetDefaultsForFirstLab();
+            SetDefaultsForSecondLab();
 
             lblWidth.Text = $"X: {-_center.X}  -  {_center.X}";
             lblHeight.Text = $"Y: {-_center.Y}  -  {_center.Y}";
@@ -45,12 +47,13 @@ namespace _Forms_CompGraph_1_11_
 
         private void btnDraw_Click(object sender, EventArgs e)
         {
-            _labParameters = ParseFirstLabParameters();
+            //_labParameters = ParseFirstLabParameters();
+            _labParameters = ParseSecondLabParameters();
             Draw();
         }
 
+        #region Labs
         #region FirstLab
-
         private FirstLabParameters ParseFirstLabParameters()
         {
             return new FirstLabParameters(
@@ -80,7 +83,42 @@ namespace _Forms_CompGraph_1_11_
                 tbSecondY.Text = center.Y.ToString();
             }
         }
+        #endregion
 
+        #region SecondLab
+        private void SetDefaultsForSecondLab()
+        {
+            _labBase = new SecondLab(_image);
+            _labParameters = ParseSecondLabParameters();
+        }
+
+        private SecondLabParameters ParseSecondLabParameters()
+        {
+            Point2D[] splainPoints = new Point2D[7];
+            /*splainPoints[0] = new Point2D(-30, 20);
+            splainPoints[1] = new Point2D(-150, 80);
+            splainPoints[2] = new Point2D(100, -10);
+            splainPoints[3] = new Point2D(0, -200);
+            splainPoints[4] = new Point2D(50, 100);
+            splainPoints[5] = new Point2D(90, 150);
+            splainPoints[6] = new Point2D(-175, -10);
+            //splainPoints[6] = new Point2D(90, 150);
+            //splainPoints[7] = new Point2D(90, 150);*/
+
+            splainPoints[0] = new Point2D(-200, -200);
+            splainPoints[1] = new Point2D(-150, 80);
+            splainPoints[2] = new Point2D(0, -100);
+            splainPoints[3] = new Point2D(75, 200);
+            splainPoints[4] = new Point2D(125, 10);
+            splainPoints[5] = new Point2D(180, 120);
+            splainPoints[6] = new Point2D(200, -85);
+
+            int splainPow = int.Parse(tbAdditional.Text);
+
+            return new SecondLabParameters(splainPoints, splainPow);
+        }
+
+        #endregion
         #endregion
 
         #region Events

@@ -1,4 +1,6 @@
-﻿namespace _Forms_CompGraph_1_11_.Utils
+﻿using System.Drawing;
+
+namespace _Forms_CompGraph_1_11_.Utils
 {
     public struct DoublePoint2D
     {
@@ -9,6 +11,11 @@
         {
             X = x;
             Y = y;
+        }
+
+        public PointF ToPointF()
+        {
+            return new PointF((float)X, (float)Y);
         }
 
         public static DoublePoint2D operator +(DoublePoint2D a, DoublePoint2D b)
