@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using _Forms_CompGraph_1_11_.Labs;
 using _Forms_CompGraph_1_11_.Labs.FirstLab;
@@ -14,46 +16,107 @@ namespace _Forms_CompGraph_1_11_
         private readonly Point _center;
         private LabBase _labBase;
         private LabParameters _labParameters;
+        private readonly HashSet<Control> _formatErrors;
+        private int _currentLab = 1;
 
         public Form1()
         {
             InitializeComponent();
 
-            #region TextboxFill
-
-            tbFirstX.Text = "0";
-            tbFirstY.Text = "0";
-            tbFirstRadius.Text = "30";
-
-            tbSecondX.Text = "150";
-            tbSecondY.Text = "0";
-            tbSecondRadius.Text = "70";
-
-            tbAdditional.Text = "2";
-
-            #endregion
-
+            _formatErrors = new HashSet<Control>();
             _image = new Bitmap(pbScene.Size.Width, pbScene.Size.Height);
             _center = new Point(pbScene.Size.Width / 2, pbScene.Size.Height / 2);
 
-            //SetDefaultsForFirstLab();
-            SetDefaultsForSecondLab();
+            SetDefaults();
 
-            lblWidth.Text = $"X: {-_center.X}  -  {_center.X}";
-            lblHeight.Text = $"Y: {-_center.Y}  -  {_center.Y}";
+            lblWidth.Text = $"Width: {-_center.X}  -  {_center.X}";
+            lblHeight.Text = $"Height: {-_center.Y}  -  {_center.Y}";
             ClearImage();
+            btnDraw_Click(null, null);
             UpdateImage();
         }
 
-        private void btnDraw_Click(object sender, EventArgs e)
-        {
-            //_labParameters = ParseFirstLabParameters();
-            _labParameters = ParseSecondLabParameters();
-            Draw();
-        }
 
         #region Labs
+
+        private void SetDefaults()
+        {
+            switch (_currentLab)
+            {
+                case 1:
+                    SetDefaultsForFirstLab();
+                    break;
+                case 2:
+                    SetDefaultsForSecondLab();
+                    break;
+                case 3:
+                    throw new NotImplementedException();
+                case 4:
+                    throw new NotImplementedException();
+                case 5:
+                    throw new NotImplementedException();
+                case 6:
+                    throw new NotImplementedException();
+                case 7:
+                    throw new NotImplementedException();
+                default:
+                    throw new ArgumentOutOfRangeException($"{nameof(_currentLab)} hasn't been in 1-7 interval");
+            }
+        }
+
+        private void ParseParameters()
+        {
+            switch (_currentLab)
+            {
+                case 1:
+                    _labParameters = ParseFirstLabParameters();
+                    break;
+                case 2:
+                    _labParameters = ParseSecondLabParameters();
+                    break;
+                case 3:
+                    throw new NotImplementedException();
+                case 4:
+                    throw new NotImplementedException();
+                case 5:
+                    throw new NotImplementedException();
+                case 6:
+                    throw new NotImplementedException();
+                case 7:
+                    throw new NotImplementedException();
+                default:
+                    throw new ArgumentOutOfRangeException($"{nameof(_currentLab)} hasn't been in 1-7 interval");
+            }
+        }
+
+        private void MouseClicked(Point position, MouseEventArgs e)
+        {
+            switch (_currentLab)
+            {
+                case 1:
+                    UpdateFirstLabCoords(position, e);
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException($"{nameof(_currentLab)} hasn't been in 1-7 interval");
+            }
+
+            btnDraw_Click(null, null);
+        }
+
         #region FirstLab
+
         private FirstLabParameters ParseFirstLabParameters()
         {
             return new FirstLabParameters(
@@ -70,22 +133,24 @@ namespace _Forms_CompGraph_1_11_
             _labParameters = ParseFirstLabParameters();
         }
 
-        private void UpdateFirstLabCoords(Point center, bool firstCircle)
+        private void UpdateFirstLabCoords(Point center, MouseEventArgs e)
         {
-            if (firstCircle)
+            if (e.Button == MouseButtons.Left)
             {
                 tbFirstX.Text = center.X.ToString();
                 tbFirstY.Text = center.Y.ToString();
             }
-            else
+            else if (e.Button == MouseButtons.Right)
             {
                 tbSecondX.Text = center.X.ToString();
                 tbSecondY.Text = center.Y.ToString();
             }
         }
+
         #endregion
 
         #region SecondLab
+
         private void SetDefaultsForSecondLab()
         {
             _labBase = new SecondLab(_image);
@@ -94,34 +159,69 @@ namespace _Forms_CompGraph_1_11_
 
         private SecondLabParameters ParseSecondLabParameters()
         {
-            Point2D[] splainPoints = new Point2D[7];
-            /*splainPoints[0] = new Point2D(-30, 20);
-            splainPoints[1] = new Point2D(-150, 80);
-            splainPoints[2] = new Point2D(100, -10);
-            splainPoints[3] = new Point2D(0, -200);
-            splainPoints[4] = new Point2D(50, 100);
-            splainPoints[5] = new Point2D(90, 150);
-            splainPoints[6] = new Point2D(-175, -10);
-            //splainPoints[6] = new Point2D(90, 150);
-            //splainPoints[7] = new Point2D(90, 150);*/
+            var splinePoints = new List<Point2D>();
 
-            splainPoints[0] = new Point2D(-200, -200);
-            splainPoints[1] = new Point2D(-150, 80);
-            splainPoints[2] = new Point2D(0, -100);
-            splainPoints[3] = new Point2D(75, 200);
-            splainPoints[4] = new Point2D(125, 10);
-            splainPoints[5] = new Point2D(180, 120);
-            splainPoints[6] = new Point2D(200, -85);
+            var point = new Point2D(int.Parse(FirstPointXTextBox.Text),
+                int.Parse(FirstPointYTextBox.Text));
+            for (var i = 0; i < FirstPointCountNumericUpDown.Value; i++)
+                splinePoints.Add(point);
 
-            int splainPow = int.Parse(tbAdditional.Text);
+            point = new Point2D(int.Parse(SecondPointXTextBox.Text),
+                int.Parse(SecondPointYTextBox.Text));
+            for (var i = 0; i < SecondPointCountNumericUpDown.Value; i++)
+                splinePoints.Add(point);
 
-            return new SecondLabParameters(splainPoints, splainPow);
+            point = new Point2D(int.Parse(ThirdPointXTextBox.Text),
+                int.Parse(ThirdPointYTextBox.Text));
+            for (var i = 0; i < ThirdPointCountNumericUpDown.Value; i++)
+                splinePoints.Add(point);
+
+            point = new Point2D(int.Parse(FourthPointXTextBox.Text),
+                int.Parse(FourthPointYTextBox.Text));
+            for (var i = 0; i < FourthPointCountNumericUpDown.Value; i++)
+                splinePoints.Add(point);
+
+            point = new Point2D(int.Parse(FifthPointXTextBox.Text),
+                int.Parse(FifthPointYTextBox.Text));
+            for (var i = 0; i < FifthPointCountNumericUpDown.Value; i++)
+                splinePoints.Add(point);
+
+            point = new Point2D(int.Parse(SixthPointXTextBox.Text),
+                int.Parse(SixthPointYTextBox.Text));
+            for (var i = 0; i < SixthPointCountNumericUpDown.Value; i++)
+                splinePoints.Add(point);
+
+            point = new Point2D(int.Parse(SeventhPointXTextBox.Text),
+                int.Parse(SeventhPointYTextBox.Text));
+            for (var i = 0; i < SeventhPointCountNumericUpDown.Value; i++)
+                splinePoints.Add(point);
+
+            if (SplinePointsSortNeeded.Checked)
+                splinePoints.Sort();
+
+            var splinePow = (int) SplineDegreeNumericUpDown.Value;
+
+            return new SecondLabParameters(splinePoints.ToArray(), splinePow);
         }
 
         #endregion
+
         #endregion
 
         #region Events
+
+        private void btnDraw_Click(object sender, EventArgs e)
+        {
+            if (_formatErrors.Count > 0)
+            {
+                MessageBox.Show(
+                    $"Исправьте ошибки в полях: {string.Join(", ", _formatErrors.Select(x => x.Name))}");
+                return;
+            }
+
+            ParseParameters();
+            Draw();
+        }
 
         private void pbScene_MouseClick(object sender, MouseEventArgs e)
         {
@@ -132,10 +232,7 @@ namespace _Forms_CompGraph_1_11_
 
             newCenter.X = newCenter.X - _center.X;
             newCenter.Y = _center.Y - newCenter.Y;
-
-            UpdateFirstLabCoords(newCenter, e.Button == MouseButtons.Left);
-
-            btnDraw_Click(null, null);
+            MouseClicked(newCenter, e);
         }
 
         private void pbScene_MouseMove(object sender, MouseEventArgs e)
@@ -144,6 +241,32 @@ namespace _Forms_CompGraph_1_11_
             newCenter.X = newCenter.X - _center.X;
             newCenter.Y = _center.Y - newCenter.Y;
             toolTip.SetToolTip(pbScene, newCenter.ToString());
+        }
+
+        private void NumericTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!(sender is TextBox textBox))
+                throw new ArgumentException($"{nameof(sender)} has the wrong type.");
+
+            var result = int.TryParse(textBox.Text, out _);
+
+            if (result)
+            {
+                NumericTextBoxErrorProvider.SetError(textBox, null);
+                _formatErrors.Remove(textBox);
+            }
+            else
+            {
+                NumericTextBoxErrorProvider.SetError(textBox, "Text should be a number!");
+                _formatErrors.Add(textBox);
+            }
+        }
+
+        private void TabControlLabs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _currentLab = ((sender as TabControl)?.SelectedIndex ?? 0) + 1;
+            SetDefaults();
+            btnDraw_Click(null, null);
         }
 
         #endregion
