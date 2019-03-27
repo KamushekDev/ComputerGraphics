@@ -1,8 +1,10 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace _Forms_CompGraph_1_11_.Utils
 {
-    public struct Point2D
+    public struct Point2D : IComparable<Point2D>
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -31,6 +33,21 @@ namespace _Forms_CompGraph_1_11_.Utils
         public static Point2D operator *(Point2D point, int factor)
         {
             return new Point2D(point.X * factor, point.Y * factor);
+        }
+
+        public static DoublePoint2D operator *(Point2D point, float factor)
+        {
+            return new DoublePoint2D(point.X * factor, point.Y * factor);
+        }
+
+        /// <summary>
+        /// Сортировка по X координате
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public int CompareTo(Point2D other)
+        {
+            return X.CompareTo(other.X);
         }
     }
 }

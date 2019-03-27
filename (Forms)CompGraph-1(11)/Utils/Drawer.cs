@@ -36,6 +36,11 @@ namespace _Forms_CompGraph_1_11_.Utils
             return new Point2D(point.X + source.Width / 2, source.Height / 2 - point.Y);
         }
 
+        private static PointF GetSourceCoordinates(Bitmap source, in PointF point) //На снос (или нет)
+        {
+            return new PointF(point.X + source.Width / 2, source.Height / 2 - point.Y);
+        }
+
         private static Vector2D GetSourceCoordinates(Bitmap source, in Vector2D vector)
         {
             return new Vector2D(source.Width / 2 + vector.X0, source.Height / 2 - vector.Y0,
@@ -155,5 +160,66 @@ namespace _Forms_CompGraph_1_11_.Utils
 
             return true;
         }
+
+        #region DrawCurve
+        /// <summary>
+        /// Рисует кривую заданного цвета по заданным точкам с заданной упругостью
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="points">Точки кривой</param>
+        /// <param name="tension">Упругость кривой</param>
+        /// <param name="color">Цвет кривой</param>
+        /// <returns></returns>
+        public static bool DrawCurve(Bitmap source, PointF[] points, float tension, Color color)
+        {
+            for (int i = 0; i < points.Length; i++)
+                points[i] = GetSourceCoordinates(source, points[i]);
+
+            using (var graphics = Graphics.FromImage(source))
+            {
+                using (var pen = new Pen(color, 1))
+                {
+                    graphics.DrawCurve(pen, points, tension); //Перепелить (оставленно для fast-теста)
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Рисует кривую черного цвета по заданным точкам с заданной упругостью
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="points">Точки кривой</param>
+        /// <param name="tension">Упругость кривой</param>
+        /// <returns></returns>
+        public static bool DrawCurve(Bitmap source, PointF[] points, float tension)
+        {
+            return DrawCurve(source, points, tension, Color.Black);
+        }
+
+        /// <summary>
+        /// Рисует кривую заданного цвета по заданным точкам
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="points">Точки кривой</param>
+        /// <param name="color">Цвет кривой</param>
+        /// <returns></returns>
+        public static bool DrawCurve(Bitmap source, PointF[] points, Color color)
+        {
+            return DrawCurve(source, points, 0.1f, color);
+        }
+
+        /// <summary>
+        /// Рисует кривую черного цвета по заданным точкам
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="points">Точки кривой</param>
+        /// <returns></returns>
+        public static bool DrawCurve(Bitmap source, PointF[] points)
+        {
+            return DrawCurve(source, points, 0.1f, Color.Black);
+        }
+        #endregion
     }
 }

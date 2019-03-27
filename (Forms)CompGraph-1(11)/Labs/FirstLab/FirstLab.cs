@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Windows.Forms;
 using _Forms_CompGraph_1_11_.Utils;
 
 namespace _Forms_CompGraph_1_11_.Labs.FirstLab
