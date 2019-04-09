@@ -41,6 +41,13 @@ namespace _Forms_CompGraph_1_11_
 
         private void SetDefaults()
         {
+            if (_formatErrors.Count > 0)
+            {
+                MessageBox.Show(
+                    $"Исправьте ошибки в полях: {string.Join(", ", _formatErrors.Select(x => x.Name))}");
+                return;
+            }
+
             switch (_currentLab)
             {
                 case 1:
@@ -55,17 +62,20 @@ namespace _Forms_CompGraph_1_11_
                     throw new NotImplementedException();
                 case 5:
                     throw new NotImplementedException();
-                case 6:
-                    throw new NotImplementedException();
-                case 7:
-                    throw new NotImplementedException();
                 default:
-                    throw new ArgumentOutOfRangeException($"{nameof(_currentLab)} hasn't been in 1-7 interval");
+                    throw new ArgumentOutOfRangeException($"{nameof(_currentLab)} hasn't been in 1-5 interval");
             }
         }
 
         private void ParseParameters()
         {
+            if (_formatErrors.Count > 0)
+            {
+                MessageBox.Show(
+                    $"Исправьте ошибки в полях: {string.Join(", ", _formatErrors.Select(x => x.Name))}");
+                return;
+            }
+
             switch (_currentLab)
             {
                 case 1:
@@ -80,12 +90,8 @@ namespace _Forms_CompGraph_1_11_
                     throw new NotImplementedException();
                 case 5:
                     throw new NotImplementedException();
-                case 6:
-                    throw new NotImplementedException();
-                case 7:
-                    throw new NotImplementedException();
                 default:
-                    throw new ArgumentOutOfRangeException($"{nameof(_currentLab)} hasn't been in 1-7 interval");
+                    throw new ArgumentOutOfRangeException($"{nameof(_currentLab)} hasn't been in 1-5 interval");
             }
         }
 
@@ -104,12 +110,8 @@ namespace _Forms_CompGraph_1_11_
                     break;
                 case 5:
                     break;
-                case 6:
-                    break;
-                case 7:
-                    break;
                 default:
-                    throw new ArgumentOutOfRangeException($"{nameof(_currentLab)} hasn't been in 1-7 interval");
+                    throw new ArgumentOutOfRangeException($"{nameof(_currentLab)} hasn't been in 1-5 interval");
             }
 
             btnDraw_Click(null, null);
@@ -212,13 +214,6 @@ namespace _Forms_CompGraph_1_11_
 
         private void btnDraw_Click(object sender, EventArgs e)
         {
-            if (_formatErrors.Count > 0)
-            {
-                MessageBox.Show(
-                    $"Исправьте ошибки в полях: {string.Join(", ", _formatErrors.Select(x => x.Name))}");
-                return;
-            }
-
             ParseParameters();
             Draw();
         }
