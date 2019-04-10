@@ -6,6 +6,8 @@ using System.Windows.Forms;
 using _Forms_CompGraph_1_11_.Labs;
 using _Forms_CompGraph_1_11_.Labs.FirstLab;
 using _Forms_CompGraph_1_11_.Labs.SecondLab;
+using _Forms_CompGraph_1_11_.Labs.ThirdLab;
+using _Forms_CompGraph_1_11_.Labs.FourthLab;
 using _Forms_CompGraph_1_11_.Utils;
 
 namespace _Forms_CompGraph_1_11_
@@ -57,9 +59,11 @@ namespace _Forms_CompGraph_1_11_
                     SetDefaultsForSecondLab();
                     break;
                 case 3:
-                    throw new NotImplementedException();
+                    SetDefaultsForThirdLab();
+                    break;
                 case 4:
-                    throw new NotImplementedException();
+                    SetDefaultsForFourthLab();
+                    break;
                 case 5:
                     throw new NotImplementedException();
                 default:
@@ -85,9 +89,11 @@ namespace _Forms_CompGraph_1_11_
                     _labParameters = ParseSecondLabParameters();
                     break;
                 case 3:
-                    throw new NotImplementedException();
+                    _labParameters = ParseThirdLabParameters();
+                    break;
                 case 4:
-                    throw new NotImplementedException();
+                    _labParameters = ParseFourthLabParameters();
+                    break;
                 case 5:
                     throw new NotImplementedException();
                 default:
@@ -201,11 +207,186 @@ namespace _Forms_CompGraph_1_11_
             if (SplinePointsSortNeeded.Checked)
                 splinePoints.Sort();
 
-            var splinePow = (int) SplineDegreeNumericUpDown.Value;
+            var splinePow = (int)SplineDegreeNumericUpDown.Value;
 
             return new SecondLabParameters(splinePoints.ToArray(), splinePow);
         }
 
+        #endregion
+
+        #region ThirdLab
+        private void SetDefaultsForThirdLab()
+        {
+            FirstPresetThirdLab();
+            _labBase = new ThirdLab(_image);
+            _labParameters = ParseThirdLabParameters();
+        }
+
+        private ThirdLabParameters ParseThirdLabParameters()
+        {
+            var areaPointsXY = new List<DoublePoint2D>();
+            var areaPointZ = new List<double>();
+            var xRotateDegree = double.Parse(tbRotateX.Text);
+            var yRotateDegree = double.Parse(tbRotateY.Text);
+
+            for (var row = 0; row < dgvAreaPoints.Rows.Count - 1; row++)
+            {
+                areaPointsXY.Add(new DoublePoint2D(double.Parse(dgvAreaPoints.Rows[row].Cells[0].Value.ToString()),
+                 double.Parse(dgvAreaPoints.Rows[row].Cells[1].Value.ToString())));
+                areaPointZ.Add(double.Parse(dgvAreaPoints.Rows[row].Cells[2].Value.ToString()));
+            }
+
+            return new ThirdLabParameters(areaPointsXY.ToArray(), areaPointZ.ToArray(), xRotateDegree, yRotateDegree);
+        }
+
+        private void FirstPresetThirdLab()
+        {
+            dgvAreaPoints.Rows.Clear();
+            dgvAreaPoints.Rows.Add(4);
+
+            dgvAreaPoints.Rows[0].Cells[0].Value = 0;
+            dgvAreaPoints.Rows[0].Cells[1].Value = 0;
+            dgvAreaPoints.Rows[0].Cells[2].Value = 100;
+
+            dgvAreaPoints.Rows[1].Cells[0].Value = 100;
+            dgvAreaPoints.Rows[1].Cells[1].Value = 100;
+            dgvAreaPoints.Rows[1].Cells[2].Value = 100;
+
+            dgvAreaPoints.Rows[2].Cells[0].Value = 0;
+            dgvAreaPoints.Rows[2].Cells[1].Value = 100;
+            dgvAreaPoints.Rows[2].Cells[2].Value = 0;
+
+            dgvAreaPoints.Rows[3].Cells[0].Value = 100;
+            dgvAreaPoints.Rows[3].Cells[1].Value = 0;
+            dgvAreaPoints.Rows[3].Cells[2].Value = 0;
+
+            tbRotateX.Text = "0";
+            tbRotateY.Text = "0";
+        }
+
+        private void SecondPresetThirdLab()
+        {
+            dgvAreaPoints.Rows.Clear();
+            dgvAreaPoints.Rows.Add(6);
+
+            dgvAreaPoints.Rows[0].Cells[0].Value = 0;
+            dgvAreaPoints.Rows[0].Cells[1].Value = 0;
+            dgvAreaPoints.Rows[0].Cells[2].Value = 100;
+
+            dgvAreaPoints.Rows[1].Cells[0].Value = 0;
+            dgvAreaPoints.Rows[1].Cells[1].Value = 100;
+            dgvAreaPoints.Rows[1].Cells[2].Value = 100;
+
+            dgvAreaPoints.Rows[2].Cells[0].Value = 100;
+            dgvAreaPoints.Rows[2].Cells[1].Value = 100;
+            dgvAreaPoints.Rows[2].Cells[2].Value = 100;
+
+            dgvAreaPoints.Rows[3].Cells[0].Value = 100;
+            dgvAreaPoints.Rows[3].Cells[1].Value = 100;
+            dgvAreaPoints.Rows[3].Cells[2].Value = 0;
+
+            dgvAreaPoints.Rows[4].Cells[0].Value = 100;
+            dgvAreaPoints.Rows[4].Cells[1].Value = 0;
+            dgvAreaPoints.Rows[4].Cells[2].Value = 0;
+
+            dgvAreaPoints.Rows[5].Cells[0].Value = 100;
+            dgvAreaPoints.Rows[5].Cells[1].Value = 0;
+            dgvAreaPoints.Rows[5].Cells[2].Value = 100;
+
+            tbRotateX.Text = "0";
+            tbRotateY.Text = "0";
+        }
+        #endregion
+
+        #region FourthLab
+        private void SetDefaultsForFourthLab()
+        {
+            _labBase = new FourthLab(_image);
+            _labParameters = ParseFourthLabParameters();
+            FirstPresetFourthLab();
+        }
+
+        private FourthLabParameters ParseFourthLabParameters()
+        {
+            var windowPoints = new List<DoublePoint2D>();
+            var figurePoints = new List<DoublePoint2D>();
+
+            for (var row = 0; row < dgvWindowPoints.Rows.Count - 1; row++)
+            {
+                string x, y;
+                try
+                {
+                    x = dgvWindowPoints.Rows[row].Cells[0].Value.ToString();
+                    y = dgvWindowPoints.Rows[row].Cells[1].Value.ToString();
+                }
+                catch (NullReferenceException)
+                {
+                    dgvWindowPoints.Rows.RemoveAt(row);
+                    row--;
+                    continue;
+                }
+
+                windowPoints.Add(new DoublePoint2D(double.Parse(x), double.Parse(y)));
+            }
+
+            for (var row = 0; row < dgvFigurePoints.Rows.Count - 1; row++)
+            {
+                string x, y;
+                try
+                {
+                    x = dgvFigurePoints.Rows[row].Cells[0].Value.ToString();
+                    y = dgvFigurePoints.Rows[row].Cells[1].Value.ToString();
+                }
+                catch (NullReferenceException)
+                {
+                    dgvFigurePoints.Rows.RemoveAt(row);
+                    row--;
+                    continue;
+                }
+
+                figurePoints.Add(new DoublePoint2D(double.Parse(x), double.Parse(y)));
+            }
+
+            return new FourthLabParameters(windowPoints.ToArray(), figurePoints.ToArray());
+        }
+
+        private void FirstPresetFourthLab()
+        {
+            dgvWindowPoints.Rows.Clear();
+            dgvFigurePoints.Rows.Clear();
+
+            dgvWindowPoints.Rows.Add(4);
+            dgvFigurePoints.Rows.Add(5);
+
+            //Window
+            dgvWindowPoints.Rows[0].Cells[0].Value = 0;
+            dgvWindowPoints.Rows[0].Cells[1].Value = 300;
+
+            dgvWindowPoints.Rows[1].Cells[0].Value = 200;
+            dgvWindowPoints.Rows[1].Cells[1].Value = -200;
+
+            dgvWindowPoints.Rows[2].Cells[0].Value = 0;
+            dgvWindowPoints.Rows[2].Cells[1].Value = 0;
+
+            dgvWindowPoints.Rows[3].Cells[0].Value = -200;
+            dgvWindowPoints.Rows[3].Cells[1].Value = -200;
+
+            //Figure
+            dgvFigurePoints.Rows[0].Cells[0].Value = -200;
+            dgvFigurePoints.Rows[0].Cells[1].Value = 200;
+
+            dgvFigurePoints.Rows[1].Cells[0].Value = 0;
+            dgvFigurePoints.Rows[1].Cells[1].Value = 100;
+
+            dgvFigurePoints.Rows[2].Cells[0].Value = 200;
+            dgvFigurePoints.Rows[2].Cells[1].Value = -100;
+
+            dgvFigurePoints.Rows[3].Cells[0].Value = -300;
+            dgvFigurePoints.Rows[3].Cells[1].Value = -100;
+
+            dgvFigurePoints.Rows[4].Cells[0].Value = -100;
+            dgvFigurePoints.Rows[4].Cells[1].Value = 0;
+        }
         #endregion
 
         #endregion

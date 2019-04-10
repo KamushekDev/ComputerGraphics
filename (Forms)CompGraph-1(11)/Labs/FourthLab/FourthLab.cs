@@ -65,11 +65,18 @@ namespace _Forms_CompGraph_1_11_.Labs.FourthLab
             //Draw figure
             var rpOrigin = realPoints.IndexOf(realPoints.Find(x => x.Relation == 1));
             var rp = rpOrigin;
-            var relation = 0;
+            var isOutWindow = true;
             do
             {
-                relation = (realPoints[rp].Relation == -1) ? -1 : 0;
-                Drawer.DrawLine(Source, realPoints[rp].Point, realPoints[(rp + 1) % realPoints.Count].Point, (relation == 0) ? Color.Purple : Color.Aqua);
+                if (realPoints[rp].Relation == 1)
+                    isOutWindow = true;
+                if (realPoints[rp].Relation == -1)
+                    isOutWindow = false;
+                //relation = (realPoints[rp].Relation == -1) ? -1 : 0;
+                //Drawer.DrawLine(Source, realPoints[rp].Point, realPoints[(rp + 1) % realPoints.Count].Point, (relation == 0) ? Color.Purple : Color.Aqua);
+                Color color = isOutWindow ? Color.Purple : Color.Aqua;
+
+                Drawer.DrawLine(Source, realPoints[rp].Point, realPoints[(rp + 1) % realPoints.Count].Point, color);
 
                 rp = ++rp % realPoints.Count;
             } while (rp != rpOrigin);
