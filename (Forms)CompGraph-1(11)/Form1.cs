@@ -8,6 +8,7 @@ using _Forms_CompGraph_1_11_.Labs.FirstLab;
 using _Forms_CompGraph_1_11_.Labs.SecondLab;
 using _Forms_CompGraph_1_11_.Labs.ThirdLab;
 using _Forms_CompGraph_1_11_.Labs.FourthLab;
+using _Forms_CompGraph_1_11_.Labs.SixthLab;
 using _Forms_CompGraph_1_11_.Utils;
 
 namespace _Forms_CompGraph_1_11_
@@ -19,7 +20,7 @@ namespace _Forms_CompGraph_1_11_
         private LabBase _labBase;
         private LabParameters _labParameters;
         private readonly HashSet<Control> _formatErrors;
-        private int _currentLab = 1;
+        private int _currentLab = 5;
 
         public Form1()
         {
@@ -65,7 +66,8 @@ namespace _Forms_CompGraph_1_11_
                     SetDefaultsForFourthLab();
                     break;
                 case 5:
-                    throw new NotImplementedException();
+                    SetDefaultsForSixthLab();
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException($"{nameof(_currentLab)} hasn't been in 1-5 interval");
             }
@@ -95,7 +97,8 @@ namespace _Forms_CompGraph_1_11_
                     _labParameters = ParseFourthLabParameters();
                     break;
                 case 5:
-                    throw new NotImplementedException();
+                    _labParameters = ParseSixthLabParameters();
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException($"{nameof(_currentLab)} hasn't been in 1-5 interval");
             }
@@ -231,9 +234,18 @@ namespace _Forms_CompGraph_1_11_
 
             for (var row = 0; row < dgvAreaPoints.Rows.Count - 1; row++)
             {
-                areaPointsXY.Add(new DoublePoint2D(double.Parse(dgvAreaPoints.Rows[row].Cells[0].Value.ToString()),
-                 double.Parse(dgvAreaPoints.Rows[row].Cells[1].Value.ToString())));
-                areaPointZ.Add(double.Parse(dgvAreaPoints.Rows[row].Cells[2].Value.ToString()));
+                try
+                {
+                    areaPointsXY.Add(new DoublePoint2D(double.Parse(dgvAreaPoints.Rows[row].Cells[0].Value.ToString()),
+                     double.Parse(dgvAreaPoints.Rows[row].Cells[1].Value.ToString())));
+                    areaPointZ.Add(double.Parse(dgvAreaPoints.Rows[row].Cells[2].Value.ToString()));
+                }
+                catch (NullReferenceException)
+                {
+                    dgvWindowPoints.Rows.RemoveAt(row);
+                    row--;
+                    continue;
+                }
             }
 
             return new ThirdLabParameters(areaPointsXY.ToArray(), areaPointZ.ToArray(), xRotateDegree, yRotateDegree);
@@ -248,7 +260,7 @@ namespace _Forms_CompGraph_1_11_
             dgvAreaPoints.Rows[0].Cells[1].Value = 0;
             dgvAreaPoints.Rows[0].Cells[2].Value = 100;
 
-            dgvAreaPoints.Rows[1].Cells[0].Value = 100;
+            dgvAreaPoints.Rows[1].Cells[0].Value = 0;
             dgvAreaPoints.Rows[1].Cells[1].Value = 100;
             dgvAreaPoints.Rows[1].Cells[2].Value = 100;
 
@@ -344,7 +356,7 @@ namespace _Forms_CompGraph_1_11_
                     continue;
                 }
 
-                figurePoints.Add(new DoublePoint2D(double.Parse(x), double.Parse(y)));
+                figurePoints.Add(new DoublePoint2D(double.Parse(x), double.Parse(y) + 0.1));
             }
 
             return new FourthLabParameters(windowPoints.ToArray(), figurePoints.ToArray());
@@ -389,6 +401,18 @@ namespace _Forms_CompGraph_1_11_
         }
         #endregion
 
+        #region SixthLab
+        private void SetDefaultsForSixthLab()
+        {
+            _labBase = new SixthLab(_image);
+            _labParameters = ParseSixthLabParameters();
+        }
+
+        private SixthLabParameters ParseSixthLabParameters()
+        {
+            return new SixthLabParameters();
+        }
+        #endregion
         #endregion
 
         #region Events

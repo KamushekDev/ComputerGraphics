@@ -69,6 +69,10 @@ namespace _Forms_CompGraph_1_11_.Labs.ThirdLab
 
         private void DrawLab(DoublePoint3D[] areaPoints, double xRotateDegree, double yRotateDegree)
         {
+            Drawer.DrawLine(Source, new DoublePoint2D(0, 300), new DoublePoint2D(0, 0),Color.Gray);
+            Drawer.DrawLine(Source, new DoublePoint2D(0, 0), new DoublePoint2D(Math.Cos(Math.PI/6)*300, -Math.Sin(Math.PI/6)*300), Color.Gray);
+            Drawer.DrawLine(Source, new DoublePoint2D(0, 0), new DoublePoint2D(-Math.Cos(Math.PI/6)*300, -Math.Sin(Math.PI/6)*300), Color.Gray);
+
             var realPoints = new DoublePoint2D[areaPoints.Length];
             xRotateDegree = xRotateDegree / 360 * 2 * Math.PI;
             yRotateDegree = yRotateDegree / 360 * 2 * Math.PI;

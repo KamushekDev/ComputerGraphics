@@ -113,6 +113,14 @@
             this.SplineDegreeNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.tbAdditional = new System.Windows.Forms.TextBox();
             this.tabThirdLab = new System.Windows.Forms.TabPage();
+            this.label35 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.tbRotateY = new System.Windows.Forms.TextBox();
+            this.tbRotateX = new System.Windows.Forms.TextBox();
+            this.dgvAreaPoints = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.zColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabFourthLab = new System.Windows.Forms.TabPage();
             this.dgvFigurePoints = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -123,14 +131,6 @@
             this.tabFifthLab = new System.Windows.Forms.TabPage();
             this.btnDraw = new System.Windows.Forms.Button();
             this.NumericTextBoxErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.dgvAreaPoints = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.zColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label35 = new System.Windows.Forms.Label();
-            this.label36 = new System.Windows.Forms.Label();
-            this.tbRotateY = new System.Windows.Forms.TextBox();
-            this.tbRotateX = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbScene)).BeginInit();
             this.tabControlLabs.SuspendLayout();
             this.tabFirstLab.SuspendLayout();
@@ -157,11 +157,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.FirstPointCountNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SplineDegreeNumericUpDown)).BeginInit();
             this.tabThirdLab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAreaPoints)).BeginInit();
             this.tabFourthLab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFigurePoints)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWindowPoints)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericTextBoxErrorProvider)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvAreaPoints)).BeginInit();
             this.SuspendLayout();
             // 
             // pbScene
@@ -173,7 +173,7 @@
             this.pbScene.Location = new System.Drawing.Point(12, 12);
             this.pbScene.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pbScene.Name = "pbScene";
-            this.pbScene.Size = new System.Drawing.Size(1027, 791);
+            this.pbScene.Size = new System.Drawing.Size(791, 791);
             this.pbScene.TabIndex = 0;
             this.pbScene.TabStop = false;
             this.toolTip.SetToolTip(this.pbScene, "sd");
@@ -1270,6 +1270,80 @@
             this.tabThirdLab.Text = "Third";
             this.tabThirdLab.UseVisualStyleBackColor = true;
             // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(119, 351);
+            this.label35.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(21, 17);
+            this.label35.TabIndex = 7;
+            this.label35.Text = "Y:";
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(16, 351);
+            this.label36.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(21, 17);
+            this.label36.TabIndex = 6;
+            this.label36.Text = "X:";
+            // 
+            // tbRotateY
+            // 
+            this.tbRotateY.Location = new System.Drawing.Point(145, 348);
+            this.tbRotateY.Margin = new System.Windows.Forms.Padding(4);
+            this.tbRotateY.Name = "tbRotateY";
+            this.tbRotateY.Size = new System.Drawing.Size(72, 22);
+            this.tbRotateY.TabIndex = 5;
+            this.tbRotateY.Text = "0";
+            // 
+            // tbRotateX
+            // 
+            this.tbRotateX.Location = new System.Drawing.Point(41, 348);
+            this.tbRotateX.Margin = new System.Windows.Forms.Padding(4);
+            this.tbRotateX.Name = "tbRotateX";
+            this.tbRotateX.Size = new System.Drawing.Size(68, 22);
+            this.tbRotateX.TabIndex = 4;
+            this.tbRotateX.Text = "0";
+            // 
+            // dgvAreaPoints
+            // 
+            this.dgvAreaPoints.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAreaPoints.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn3,
+            this.dataGridViewTextBoxColumn4,
+            this.zColumn});
+            this.dgvAreaPoints.Location = new System.Drawing.Point(3, 42);
+            this.dgvAreaPoints.Name = "dgvAreaPoints";
+            this.dgvAreaPoints.RowHeadersVisible = false;
+            this.dgvAreaPoints.RowTemplate.Height = 24;
+            this.dgvAreaPoints.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dgvAreaPoints.Size = new System.Drawing.Size(231, 270);
+            this.dgvAreaPoints.TabIndex = 1;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dataGridViewTextBoxColumn3.HeaderText = "X";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.Width = 50;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dataGridViewTextBoxColumn4.HeaderText = "Y";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.Width = 50;
+            // 
+            // zColumn
+            // 
+            this.zColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.zColumn.HeaderText = "Z";
+            this.zColumn.Name = "zColumn";
+            this.zColumn.Width = 50;
+            // 
             // tabFourthLab
             // 
             this.tabFourthLab.Controls.Add(this.dgvFigurePoints);
@@ -1362,80 +1436,6 @@
             // 
             this.NumericTextBoxErrorProvider.ContainerControl = this;
             // 
-            // dgvAreaPoints
-            // 
-            this.dgvAreaPoints.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAreaPoints.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn3,
-            this.dataGridViewTextBoxColumn4,
-            this.zColumn});
-            this.dgvAreaPoints.Location = new System.Drawing.Point(3, 42);
-            this.dgvAreaPoints.Name = "dgvAreaPoints";
-            this.dgvAreaPoints.RowHeadersVisible = false;
-            this.dgvAreaPoints.RowTemplate.Height = 24;
-            this.dgvAreaPoints.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dgvAreaPoints.Size = new System.Drawing.Size(231, 270);
-            this.dgvAreaPoints.TabIndex = 1;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dataGridViewTextBoxColumn3.HeaderText = "X";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.Width = 50;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dataGridViewTextBoxColumn4.HeaderText = "Y";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.Width = 50;
-            // 
-            // zColumn
-            // 
-            this.zColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.zColumn.HeaderText = "Z";
-            this.zColumn.Name = "zColumn";
-            this.zColumn.Width = 50;
-            // 
-            // label35
-            // 
-            this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(119, 351);
-            this.label35.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(21, 17);
-            this.label35.TabIndex = 7;
-            this.label35.Text = "Y:";
-            // 
-            // label36
-            // 
-            this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(16, 351);
-            this.label36.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(21, 17);
-            this.label36.TabIndex = 6;
-            this.label36.Text = "X:";
-            // 
-            // tbRotateY
-            // 
-            this.tbRotateY.Location = new System.Drawing.Point(145, 348);
-            this.tbRotateY.Margin = new System.Windows.Forms.Padding(4);
-            this.tbRotateY.Name = "tbRotateY";
-            this.tbRotateY.Size = new System.Drawing.Size(72, 22);
-            this.tbRotateY.TabIndex = 5;
-            this.tbRotateY.Text = "0";
-            // 
-            // tbRotateX
-            // 
-            this.tbRotateX.Location = new System.Drawing.Point(41, 348);
-            this.tbRotateX.Margin = new System.Windows.Forms.Padding(4);
-            this.tbRotateX.Name = "tbRotateX";
-            this.tbRotateX.Size = new System.Drawing.Size(68, 22);
-            this.tbRotateX.TabIndex = 4;
-            this.tbRotateX.Text = "0";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1491,11 +1491,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.SplineDegreeNumericUpDown)).EndInit();
             this.tabThirdLab.ResumeLayout(false);
             this.tabThirdLab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAreaPoints)).EndInit();
             this.tabFourthLab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvFigurePoints)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWindowPoints)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericTextBoxErrorProvider)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvAreaPoints)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
