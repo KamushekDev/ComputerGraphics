@@ -4,6 +4,11 @@
     {
         public float Intense { get; set; }
 
+        protected LightSource(float intense)
+        {
+            Intense = intense;
+        }
+
         public override string ToString()
         {
             return $"[{nameof(Intense)}: {Intense}]";

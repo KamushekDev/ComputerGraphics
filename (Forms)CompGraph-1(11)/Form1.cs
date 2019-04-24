@@ -1,16 +1,16 @@
-﻿using System;
+﻿using _Forms_CompGraph_1_11_.Labs;
+using _Forms_CompGraph_1_11_.Labs.FirstLab;
+using _Forms_CompGraph_1_11_.Labs.FourthLab;
+using _Forms_CompGraph_1_11_.Labs.SecondLab;
+using _Forms_CompGraph_1_11_.Labs.SixthLab;
+using _Forms_CompGraph_1_11_.Labs.SixthLab.Utils;
+using _Forms_CompGraph_1_11_.Labs.ThirdLab;
+using _Forms_CompGraph_1_11_.Utils;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using _Forms_CompGraph_1_11_.Labs;
-using _Forms_CompGraph_1_11_.Labs.FirstLab;
-using _Forms_CompGraph_1_11_.Labs.SecondLab;
-using _Forms_CompGraph_1_11_.Labs.ThirdLab;
-using _Forms_CompGraph_1_11_.Labs.FourthLab;
-using _Forms_CompGraph_1_11_.Labs.SixthLab;
-using _Forms_CompGraph_1_11_.Labs.SixthLab.Utils;
-using _Forms_CompGraph_1_11_.Utils;
 using DoublePoint3D = _Forms_CompGraph_1_11_.Utils.DoublePoint3D;
 
 namespace _Forms_CompGraph_1_11_
@@ -52,7 +52,7 @@ namespace _Forms_CompGraph_1_11_
             lblWidth.Text = $"Width: {-_center.X}  -  {_center.X}";
             lblHeight.Text = $"Height: {-_center.Y}  -  {_center.Y}";
             ClearImage();
-            btnDraw_Click(null, null);
+            //btnDraw_Click(null, null);
             UpdateImage();
             ObjectTypesCB.Items.AddRange(objectTypes);
 
@@ -463,6 +463,62 @@ namespace _Forms_CompGraph_1_11_
         private void SetDefaultsForSixthLab()
         {
             _labBase = new SixthLab(_image);
+
+            var elements = new IAddable[7];
+
+            elements[0] = new AmbientLight(0.2f);
+
+            elements[1] = new PointLight(
+                new DoublePoint3D(2, 1, 0),
+                0.6f
+            );
+
+            elements[2] = new DirectLight(
+                new DoublePoint3D(1, 4, 4),
+                0.2f
+            );
+
+            elements[3] = new Sphere(
+                new DoublePoint3D(0, -1, 3),
+                1,
+                new ColorRGB(255, 0, 0),
+                500,
+                0.2f,
+                0f);
+
+            elements[4] = new Sphere(
+                new DoublePoint3D(2, 0, 4),
+                1,
+                new ColorRGB(0, 0, 255),
+                500,
+                0.3f,
+                0f);
+
+            elements[5] = new Sphere(
+                new DoublePoint3D(-2, 0, 4),
+                1,
+                new ColorRGB(0, 255, 0), 
+                10,
+                0.4f,
+                0f);
+
+            elements[6] = new Sphere(
+                new DoublePoint3D(0, -5001, 0), 
+                5000, 
+                new ColorRGB(255, 255, 0), 
+                1000,
+                0.5f,
+                0f);
+
+            ElementsLB.Items.AddRange(elements);
+
+            CameraX.Text = "0";
+            CameraY.Text = "5";
+            CameraZ.Text = "2";
+
+            CameraXAngleTB.Value = 90;
+            CameraYAngleTB.Value = 180;
+
             _labParameters = ParseSixthLabParameters();
         }
 

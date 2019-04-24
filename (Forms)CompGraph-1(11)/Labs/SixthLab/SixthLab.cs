@@ -8,7 +8,7 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
     class SixthLab : LabBase
     {
         private const double Inf = double.MaxValue;
-        private ColorRGB BackGroundColor = new ColorRGB(0, 0, 0);
+        private readonly ColorRGB BackGroundColor = new ColorRGB(0, 0, 0);
         private GraphicalObject[] GraphicalObjects { get; set; }
         private LightSource[] LightSources { get; set; }
 
