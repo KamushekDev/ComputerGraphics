@@ -45,6 +45,24 @@ namespace _Forms_CompGraph_1_11_.Utils
             return X * vector.X + Y * vector.Y + Z * vector.Z;
         }
 
+        public DoublePoint3D RotateX(double angle)
+        {
+            var x = X;
+            var y = Y * Math.Cos(angle) - Z * Math.Sin(angle);
+            var z = Y * Math.Sin(angle) + Z * Math.Cos(angle);
+
+            return new DoublePoint3D(x, y, z);
+        }
+
+        public DoublePoint3D RotateY(double angle)
+        {
+            var x = X * Math.Cos(angle) + Z * Math.Sin(angle);
+            var y = Y;
+            var z = -X * Math.Sin(angle) + Z * Math.Cos(angle);
+
+            return new DoublePoint3D(x, y, z);
+        }
+
         #region Operators
         public static DoublePoint3D operator +(DoublePoint3D a, DoublePoint3D b)
         {

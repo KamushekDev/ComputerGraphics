@@ -46,13 +46,14 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
             ColorRGB color;
             int specular;
             float reflection;
-            float transparency = 1;
+            float transparency;
 
             center = new DoublePoint3D(0, -1, 3);
             radius = 1;
             color = new ColorRGB(255, 0, 0); //Red
             specular = 500;
             reflection = 0.2f;
+            transparency = 0.3f;
             Spheres[0] = new Sphere(center, radius, color, specular, reflection, transparency);
 
             center = new DoublePoint3D(2, 0, 4);
@@ -60,6 +61,7 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
             color = new ColorRGB(0, 0, 255); //Blue
             specular = 500;
             reflection = 0.3f;
+            transparency = 0f;
             Spheres[1] = new Sphere(center, radius, color, specular, reflection, transparency);
 
             center = new DoublePoint3D(-2, 0, 4);
@@ -67,6 +69,7 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
             color = new ColorRGB(0, 255, 0); //Green
             specular = 10;
             reflection = 0.4f;
+            transparency = 0f;
             Spheres[2] = new Sphere(center, radius, color, specular, reflection, transparency);
 
             center = new DoublePoint3D(0, -5001, 0);
@@ -74,6 +77,7 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
             color = new ColorRGB(255, 255, 0); //Yellow
             specular = 1000;
             reflection = 0.5f;
+            transparency = 0f;
             Spheres[3] = new Sphere(center, radius, color, specular, reflection, transparency);
         }
         #endregion
@@ -92,13 +96,14 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
             const double distance = 1;
             const byte recursionDerpth = 3;
 
-            var interval = new double[] { 0.001, Inf };
-            var cameraPosition = new DoublePoint3D(0, 0, 0);
+            var interval = new double[] { 0.0001, Inf };
+            var cameraPosition = new DoublePoint3D(0, 0, 0);// (0, 5, 2);
+            var cameraAngle = new DoublePoint2D(0, 0);// (Math.PI / 2, Math.PI);
 
             for (var x = 0; x < Source.Width; x++)
                 for (var y = 0; y < Source.Height; y++)
                 {
-                    DoublePoint3D viewPortPoint = CanvasToViewport(new DoublePoint2D(x, y), distance);
+                    DoublePoint3D viewPortPoint = CanvasToViewport(new DoublePoint2D(x, y), distance).RotateX(cameraAngle.X).RotateY(cameraAngle.Y);
                     ColorRGB color = TraceRay(cameraPosition, viewPortPoint, interval, recursionDerpth);
                     Source.SetPixel(x, y, Color.FromArgb(color.R, color.G, color.B));
                 }
@@ -129,14 +134,20 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
             normalVector /= normalVector.Length();
             ColorRGB localColor = ComputeLightning(intersectPoint, normalVector, -viewPortPoint, Spheres[closest.Sphere].Specular) * Spheres[closest.Sphere].Color;
 
+            //Transparency
+            var transparency = Spheres[closest.Sphere].Transparency;
+            ColorRGB transparentColor = BackGroundColor;
+            if (transparency > 0)
+                transparentColor = TraceRay(intersectPoint, viewPortPoint, interval, recursionDerpth);
+
             //Reflection
             var reflection = Spheres[closest.Sphere].Reflection;
             if ((recursionDerpth <= 0) || (reflection <= 0))
-                return localColor;
+                return (1 - transparency) * localColor + transparency * transparentColor;
             var reflectedVector = ReflectRay(-viewPortPoint, normalVector);
-            var reflectedColor = TraceRay(cameraPosition, reflectedVector, interval, recursionDerpth - 1);
+            var reflectedColor = TraceRay(intersectPoint, reflectedVector, interval, recursionDerpth - 1);
 
-            return (1 - reflection) * localColor + reflection * reflectedColor;
+            return (1 - reflection) * (1 - transparency) * localColor + reflection * (1 - transparency) * reflectedColor + transparency * transparentColor;
         }
 
         private Closest ClosestIntersection(DoublePoint3D cameraPosition, DoublePoint3D viewPortPoint, double[] interval)
@@ -200,8 +211,19 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
                         lightVector = light.Point;
 
                     //Shadows
-                    var shadow = ClosestIntersection(intersectPoint, lightVector, interval);
-                    if (shadow.Sphere != -1)
+                    Closest shadow = ClosestIntersection(intersectPoint, lightVector, interval);
+                    float transparency = 1;
+                    while (shadow.Sphere != -1)
+                    {
+                        if ((Spheres[shadow.Sphere].Transparency == 0) || (transparency == 0))
+                        {
+                            transparency = 0;
+                            break;
+                        }
+                        transparency *= Spheres[shadow.Sphere].Transparency;
+                        shadow = ClosestIntersection(intersectPoint + shadow.Point * lightVector, lightVector, interval);
+                    }
+                    if (transparency == 0)
                         continue;
 
                     //Diffusal Illumination
@@ -215,7 +237,7 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
                         var refleclectedVector = ReflectRay(lightVector, normalVector);
                         scal = refleclectedVector.ScalMultiply(vector);
                         if (scal > 0)
-                            result += (float)(light.Intensity * Math.Pow(scal / (refleclectedVector.Length() * vector.Length()), specular));
+                            result += (float)(transparency * (light.Intensity * Math.Pow(scal / (refleclectedVector.Length() * vector.Length()), specular)));
                     }
                 }
             }
