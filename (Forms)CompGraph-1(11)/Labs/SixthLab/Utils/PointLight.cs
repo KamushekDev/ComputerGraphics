@@ -6,6 +6,11 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab.Utils
     {
         public DoublePoint3D Coord { get; set; }
 
+        public PointLight(DoublePoint3D coord, float intensity) : base(intensity)
+        {
+            Coord = coord;
+        }
+
         public override string ToString()
         {
             return $"(Point light) {nameof(Coord)}: {Coord.ToString()}. {base.ToString()}";

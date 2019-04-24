@@ -20,6 +20,7 @@ namespace _Forms_CompGraph_1_11_
         private readonly Bitmap _image;
         private readonly Point _center;
         private LabBase _labBase;
+        private bool _lol = true;
         private LabParameters _labParameters;
         private readonly HashSet<Control> _formatErrors;
         private int _currentLab = 6;
@@ -464,6 +465,7 @@ namespace _Forms_CompGraph_1_11_
         {
             _labBase = new SixthLab(_image);
             _labParameters = ParseSixthLabParameters();
+            (_labParameters as SixthLabParameters).Initial = true;
         }
 
         #endregion

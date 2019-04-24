@@ -34,9 +34,12 @@ namespace _Forms_CompGraph_1_11_.Utils
             return Math.Sqrt(X * X + Y * Y + Z * Z);
         }
 
-        public double VecMultiply(DoublePoint3D vector)
+        public DoublePoint3D VecMultiply(DoublePoint3D vector)
         {
-            return X * vector.Y - vector.X * Y;
+            var x = Y * vector.Z - vector.Y * Z;
+            var y = x * vector.Z - vector.X * Z;
+            var z = X * vector.Y - vector.X * Y;
+            return new DoublePoint3D(x, y, z);
         }
 
         public double ScalMultiply(DoublePoint3D vector)

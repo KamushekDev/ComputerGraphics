@@ -9,7 +9,7 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
     {
         private const double Inf = double.MaxValue;
         private ColorRGB BackGroundColor = new ColorRGB(0, 0, 0);
-        private Sphere[] Spheres { get; set; }
+        private GraphicalObject[] GraphicalObjects { get; set; }
         private LightSource[] LightSources { get; set; }
 
         public SixthLab(Bitmap source) : base(source)
@@ -27,20 +27,18 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
             string type;
 
             intensity = 0.2f;
-            LightSources[0] = new LightSource(intensity);
+            LightSources[0] = new AmbientLight(intensity);
 
             point = new DoublePoint3D(2, 1, 0);
             intensity = 0.6f;
-            type = "Point";
-            LightSources[1] = new LightSource(point, intensity, type);
+            LightSources[1] = new PointLight(point, intensity);
 
             point = new DoublePoint3D(1, 4, 4);
             intensity = 0.2f;
-            type = "Directional";
-            LightSources[2] = new LightSource(point, intensity, type);
+            LightSources[2] = new DirectLight(point, intensity);
 
             //Spheres
-            Spheres = new Sphere[4];
+            GraphicalObjects = new Sphere[4];
             DoublePoint3D center;
             double radius;
             ColorRGB color;
@@ -54,7 +52,7 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
             specular = 500;
             reflection = 0.2f;
             transparency = 0f;
-            Spheres[0] = new Sphere(center, radius, color, specular, reflection, transparency);
+            GraphicalObjects[0] = new Sphere(center, radius, color, specular, reflection, transparency);
 
             center = new DoublePoint3D(2, 0, 4);
             radius = 1;
@@ -62,7 +60,7 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
             specular = 500;
             reflection = 0.3f;
             transparency = 0f;
-            Spheres[1] = new Sphere(center, radius, color, specular, reflection, transparency);
+            GraphicalObjects[1] = new Sphere(center, radius, color, specular, reflection, transparency);
 
             center = new DoublePoint3D(-2, 0, 4);
             radius = 1;
@@ -70,7 +68,7 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
             specular = 10;
             reflection = 0.4f;
             transparency = 0f;
-            Spheres[2] = new Sphere(center, radius, color, specular, reflection, transparency);
+            GraphicalObjects[2] = new Sphere(center, radius, color, specular, reflection, transparency);
 
             center = new DoublePoint3D(0, -5001, 0);
             radius = 5000;
@@ -78,7 +76,7 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
             specular = 1000;
             reflection = 0.5f;
             transparency = 0f;
-            Spheres[3] = new Sphere(center, radius, color, specular, reflection, transparency);
+            GraphicalObjects[3] = new Sphere(center, radius, color, specular, reflection, transparency );
         }
         #endregion
 
@@ -87,8 +85,13 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
             if (!(labParameters is SixthLabParameters parameters))
                 throw new ArgumentException($"{nameof(labParameters)} has wrong type: {labParameters.GetType().Name}");
 
-            Preset1();
-
+            if (parameters.Initial)
+                Preset1();
+            else
+            {
+                GraphicalObjects = parameters.GraphicalObjects;
+                LightSources = parameters.LightSources;
+            }
             RenderScene(parameters.CameraPosition, parameters.CameraRotation);
         }
 
@@ -126,23 +129,23 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
         {
             var closest = ClosestIntersection(cameraPosition, viewPortPoint, interval); //Sphere=0, Point=1
 
-            if (closest.Sphere == -1)
+            if (closest.Object == -1)
                 return BackGroundColor;
 
             //Compute local color
             var intersectPoint = cameraPosition + closest.Point * viewPortPoint; //Compute intersection point
-            var normalVector = intersectPoint - Spheres[closest.Sphere].Center; //Compute normal vector
+            var normalVector = (GraphicalObjects[closest.Object].ToString().Contains("Sphere")) ? intersectPoint - (GraphicalObjects[closest.Object] as Sphere).Center : closest.Normal;
             normalVector /= normalVector.Length();
-            ColorRGB localColor = ComputeLightning(intersectPoint, normalVector, -viewPortPoint, Spheres[closest.Sphere].Specular) * Spheres[closest.Sphere].Color;
+            ColorRGB localColor = ComputeLightning(intersectPoint, normalVector, -viewPortPoint, GraphicalObjects[closest.Object].Specular) * GraphicalObjects[closest.Object].Color;
 
             //Transparency
-            var transparency = Spheres[closest.Sphere].Transparency;
+            var transparency = GraphicalObjects[closest.Object].Transparency;
             ColorRGB transparentColor = BackGroundColor;
             if (transparency > 0)
                 transparentColor = TraceRay(intersectPoint, viewPortPoint, interval, recursionDerpth);
 
             //Reflection
-            var reflection = Spheres[closest.Sphere].Reflection;
+            var reflection = GraphicalObjects[closest.Object].Reflective;
             if ((recursionDerpth <= 0) || (reflection <= 0))
                 return (1 - transparency) * localColor + transparency * transparentColor;
             var reflectedVector = ReflectRay(-viewPortPoint, normalVector);
@@ -153,25 +156,123 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
 
         private Closest ClosestIntersection(DoublePoint3D cameraPosition, DoublePoint3D viewPortPoint, double[] interval)
         {
-            var closestPoint = Inf;
-            var closestSphere = -1;
+            var closest = new Closest(-1, Inf);
 
-            for (var i = 0; i < Spheres.Length; i++)
+            for (var i = 0; i < GraphicalObjects.Length; i++)
             {
-                var intersections = IntersectRaySphere(cameraPosition, viewPortPoint, Spheres[i]);
-                if ((intersections[0] < closestPoint) && (interval[0] < intersections[0]) && (intersections[0] < interval[1]))
+                if (GraphicalObjects[i].ToString().Contains("Sphere"))
                 {
-                    closestPoint = intersections[0];
-                    closestSphere = i;
+                    var intersections = IntersectRaySphere(cameraPosition, viewPortPoint, GraphicalObjects[i] as Sphere);
+                    if ((intersections[0] < closest.Point) && (interval[0] < intersections[0]) && (intersections[0] < interval[1]))
+                    {
+                        closest.Point = intersections[0];
+                        closest.Object = i;
+                    }
+                    if ((intersections[1] < closest.Point) && (interval[0] < intersections[1]) && (intersections[1] < interval[1]))
+                    {
+                        closest.Point = intersections[1];
+                        closest.Object = i;
+                    }
                 }
-                if ((intersections[1] < closestPoint) && (interval[0] < intersections[1]) && (intersections[1] < interval[1]))
+                else
                 {
-                    closestPoint = intersections[1];
-                    closestSphere = i;
+                    var count = 0;
+                    var hex = GraphicalObjects[i] as Hexahedron;
+
+                    //First edge
+                    var mass = new DoublePoint3D[] { hex.Points[0].RotateX(hex.Rotation.X).RotateY(hex.Rotation.Y), hex.Points[1].RotateX(hex.Rotation.X).RotateY(hex.Rotation.Y), hex.Points[2].RotateX(hex.Rotation.X).RotateY(hex.Rotation.Y), hex.Points[3].RotateX(hex.Rotation.X).RotateY(hex.Rotation.Y) };
+                    var intersection = IntersectRayEdge(mass, cameraPosition, viewPortPoint);
+                    if ((intersection > 1) && (intersection < closest.Point))
+                    {
+                        closest.Point = intersection;
+                        closest.Object = i;
+                        closest.Normal = (mass[1] - mass[0]).VecMultiply(mass[2] - mass[0]);
+                        count++;
+                    }
+
+                    //Second edge
+                    /*mass[0] = hex.Points[4];
+                    mass[1] = hex.Points[5];
+                    mass[2] = hex.Points[6];
+                    mass[3] = hex.Points[7];
+                    intersection = IntersectRayEdge(mass, cameraPosition, viewPortPoint);
+                    if ((intersection > 1) && (intersection < closest.Point))
+                    {
+                        closest.Point = intersection;
+                        closest.Object = i;
+                        closest.Normal = (mass[1] - mass[0]).VecMultiply(mass[2] - mass[0]);
+                        count++;
+                        if (count == 2)
+                            continue;
+                    }
+
+                    //Third edge
+                    mass[0] = hex.Points[1];
+                    mass[1] = hex.Points[5];
+                    mass[2] = hex.Points[4];
+                    mass[3] = hex.Points[0];
+                    intersection = IntersectRayEdge(mass, cameraPosition, viewPortPoint);
+                    if ((intersection > 1) && (intersection < closest.Point))
+                    {
+                        closest.Point = intersection;
+                        closest.Object = i;
+                        closest.Normal = (mass[1] - mass[0]).VecMultiply(mass[2] - mass[0]);
+                        count++;
+                        if (count == 2)
+                            continue;
+                    }
+
+                    //Fourth edge
+                    mass[0] = hex.Points[3];
+                    mass[1] = hex.Points[7];
+                    mass[2] = hex.Points[6];
+                    mass[3] = hex.Points[2];
+                    intersection = IntersectRayEdge(mass, cameraPosition, viewPortPoint);
+                    if ((intersection > 1) && (intersection < closest.Point))
+                    {
+                        closest.Point = intersection;
+                        closest.Object = i;
+                        closest.Normal = (mass[1] - mass[0]).VecMultiply(mass[2] - mass[0]);
+                        count++;
+                        if (count == 2)
+                            continue;
+                    }
+
+                    //Fifth edge
+                    mass[0] = hex.Points[0];
+                    mass[1] = hex.Points[4];
+                    mass[2] = hex.Points[7];
+                    mass[3] = hex.Points[3];
+                    intersection = IntersectRayEdge(mass, cameraPosition, viewPortPoint);
+                    if ((intersection > 1) && (intersection < closest.Point))
+                    {
+                        closest.Point = intersection;
+                        closest.Object = i;
+                        closest.Normal = (mass[1] - mass[0]).VecMultiply(mass[2] - mass[0]);
+                        count++;
+                        if (count == 2)
+                            continue;
+                    }
+
+                    //Sixth edge
+                    mass[0] = hex.Points[2];
+                    mass[1] = hex.Points[6];
+                    mass[2] = hex.Points[5];
+                    mass[3] = hex.Points[1];
+                    intersection = IntersectRayEdge(mass, cameraPosition, viewPortPoint);
+                    if ((intersection > 1) && (intersection < closest.Point))
+                    {
+                        closest.Point = intersection;
+                        closest.Object = i;
+                        closest.Normal = (mass[1] - mass[0]).VecMultiply(mass[2] - mass[0]);
+                        count++;
+                        if (count == 2)
+                            continue;
+                    }*/
                 }
             }
 
-            return new Closest(closestSphere, closestPoint);
+            return closest;
         }
 
         private double[] IntersectRaySphere(DoublePoint3D cameraPosition, DoublePoint3D viewVector, Sphere sphere)
@@ -191,6 +292,52 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
 
             return new double[] { root1, root2 };
         }
+
+        //private Closest 
+
+        private double IntersectRayEdge(DoublePoint3D[] edgePoints, DoublePoint3D rayPoint, DoublePoint3D rayVector)
+        {
+            var ab = edgePoints[1] - edgePoints[0];
+            var ac = edgePoints[3] - edgePoints[0];
+
+            /*try
+            {
+                var a = (edgePoints[0].X - rayPoint.X) / rayVector.X;
+                var b = ab.X / rayVector.X;
+                var c = ac.X / rayVector.X;
+                var d = (edgePoints[0].Y - rayPoint.Y - a * rayVector.Y) / (b * rayVector.Y - ab.Y);
+                var e = (ac.Y - c * rayVector.Y) / (b * rayVector.Y - ab.Y);
+
+                var h = (edgePoints[0].Z + d * ab.Z - rayPoint.Z - a * rayVector.Z - d * rayVector.Z) / (e * rayVector.Z + c * rayVector.Z - e * ab.Z - ac.Z);
+                var w = d + e * h;
+                var t = a + b * w + c * h;
+
+
+                if ((0 <= h) && (h <= 1) && (0 <= w) && (w <= 1))
+                    return t;
+            }
+            catch
+            {
+                return -1;
+            }*/
+
+            var n = ab.VecMultiply(ac);
+            var v = edgePoints[0] - rayPoint;
+            var d = n.ScalMultiply(v);
+            var e = n.ScalMultiply(rayVector);
+            if (e != 0)
+            {
+                var a = (rayPoint.X + d / e * rayVector.X - edgePoints[0].X) / ab.X;
+                var b = ac.X / ab.X;
+                var h = (rayPoint.Y + d / e * rayVector.Y - edgePoints[0].Y - a * ab.Y) / (b * ab.Y + ac.Y);
+                var w = a + b * h;
+
+                if ((0 <= w) && (w <= 1) && (0 <= h) && (h <= 1))
+                    return d / e;
+            }
+
+            return -1;
+        }
         #endregion
 
         #region Lightning
@@ -201,27 +348,27 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
 
             foreach (LightSource light in LightSources)
             {
-                if (light.Type == "Ambient")
-                    result += light.Intensity;
+                if (light.ToString().Contains("Ambient"))
+                    result += light.Intense;
                 else
                 {
                     DoublePoint3D lightVector;
-                    if (light.Type == "Point")
-                        lightVector = light.Point - intersectPoint;
+                    if (light.ToString().Contains("Point"))
+                        lightVector = (light as PointLight).Coord - intersectPoint;
                     else
-                        lightVector = light.Point;
+                        lightVector = (light as DirectLight).Vector;
 
                     //Shadows
                     Closest shadow = ClosestIntersection(intersectPoint, lightVector, interval);
                     float transparency = 1;
-                    while (shadow.Sphere != -1)
+                    while (shadow.Object != -1)
                     {
-                        if ((Spheres[shadow.Sphere].Transparency == 0) || (transparency == 0))
+                        if ((GraphicalObjects[shadow.Object].Transparency == 0) || (transparency == 0))
                         {
                             transparency = 0;
                             break;
                         }
-                        transparency *= Spheres[shadow.Sphere].Transparency;
+                        transparency *= GraphicalObjects[shadow.Object].Transparency;
                         shadow = ClosestIntersection(intersectPoint + shadow.Point * lightVector, lightVector, interval);
                     }
                     if (transparency == 0)
@@ -230,7 +377,7 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
                     //Diffusal Illumination
                     var scal = normalVector.ScalMultiply(lightVector);
                     if (scal > 0)
-                        result += (float)(light.Intensity * scal / (normalVector.Length() * lightVector.Length()));
+                        result += (float)(light.Intense * scal / (normalVector.Length() * lightVector.Length()));
 
                     //Specular Illumination
                     if (specular != -1)
@@ -238,7 +385,7 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
                         var refleclectedVector = ReflectRay(lightVector, normalVector);
                         scal = refleclectedVector.ScalMultiply(vector);
                         if (scal > 0)
-                            result += (float)(transparency * (light.Intensity * Math.Pow(scal / (refleclectedVector.Length() * vector.Length()), specular)));
+                            result += (float)(transparency * (light.Intense * Math.Pow(scal / (refleclectedVector.Length() * vector.Length()), specular)));
                     }
                 }
             }
@@ -255,7 +402,7 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
         #endregion
 
         #region structs
-        struct Sphere
+        /*struct Sphere
         {
             public DoublePoint3D Center { get; set; }
             public double Radius { get; set; }
@@ -273,9 +420,9 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
                 Reflection = reflection;
                 Transparency = transparency;
             }
-        }
+        }*/
 
-        struct LightSource
+        /*struct LightSource
         {
             public DoublePoint3D Point { get; set; }
             public float Intensity { get; set; }
@@ -294,17 +441,26 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
                 Intensity = intensity;
                 Type = "Ambient";
             }
-        }
+        }*/
 
         private struct Closest
         {
-            public int Sphere { get; set; }
+            public int Object { get; set; }
             public double Point { get; set; }
+            public DoublePoint3D Normal { get; set; }
 
-            public Closest(int sphere, double point)
+            public Closest(int obj, double point)
             {
-                Sphere = sphere;
+                Object = obj;
                 Point = point;
+                Normal = new DoublePoint3D();
+            }
+
+            public Closest(int obj, double point, DoublePoint3D normal)
+            {
+                Object = obj;
+                Point = point;
+                Normal = normal;
             }
         }
         #endregion
