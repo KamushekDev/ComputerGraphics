@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Collections.Generic;
 using _Forms_CompGraph_1_11_.Utils;
 
 namespace _Forms_CompGraph_1_11_.Labs.SixthLab
@@ -94,7 +93,7 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
         private void RenderScene()
         {
             const double distance = 1;
-            const byte recursionDerpth = 3;
+            const byte recursionDepth = 3;
 
             var interval = new double[] { 0.0001, Inf };
             var cameraPosition = new DoublePoint3D(0, 0, 0);// (0, 5, 2);
@@ -292,54 +291,6 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
                 Point = new DoublePoint3D();
                 Intensity = intensity;
                 Type = "Ambient";
-            }
-        }
-
-        private struct ColorRGB
-        {
-            public byte R { get; set; }
-            public byte G { get; set; }
-            public byte B { get; set; }
-
-            public ColorRGB(byte r, byte g, byte b)
-            {
-                R = r;
-                G = g;
-                B = b;
-            }
-
-            public static ColorRGB operator +(ColorRGB a, ColorRGB b)
-            {
-                var r = a.R + b.R;
-                if (r > 255)
-                    r = 255;
-
-                var g = a.G + b.G;
-                if (g > 255)
-                    g = 255;
-
-                var bl = a.B + b.B;
-                if (bl > 255)
-                    bl = 255;
-
-                return new ColorRGB((byte)r, (byte)g, (byte)bl);
-            }
-
-            public static ColorRGB operator *(float a, ColorRGB b)
-            {
-                var r = a * b.R;
-                if (r > 255)
-                    r = 255;
-
-                var g = a * b.G;
-                if (g > 255)
-                    g = 255;
-
-                var bl = a * b.B;
-                if (bl > 255)
-                    bl = 255;
-
-                return new ColorRGB((byte)r, (byte)g, (byte)bl);
             }
         }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 
 namespace _Forms_CompGraph_1_11_.Utils
 {
@@ -61,6 +60,11 @@ namespace _Forms_CompGraph_1_11_.Utils
             var z = -X * Math.Sin(angle) + Z * Math.Cos(angle);
 
             return new DoublePoint3D(x, y, z);
+        }
+
+        public override string ToString()
+        {
+            return $"[{X}, {Y}, {Z}]";
         }
 
         #region Operators

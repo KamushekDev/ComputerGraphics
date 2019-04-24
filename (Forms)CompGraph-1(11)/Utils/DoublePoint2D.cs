@@ -15,7 +15,7 @@ namespace _Forms_CompGraph_1_11_.Utils
 
         public PointF ToPointF()
         {
-            return new PointF((float)X, (float)Y);
+            return new PointF((float) X, (float) Y);
         }
 
         public static DoublePoint2D operator +(DoublePoint2D a, DoublePoint2D b)
@@ -36,6 +36,11 @@ namespace _Forms_CompGraph_1_11_.Utils
         public static DoublePoint2D operator /(DoublePoint2D point, int divider)
         {
             return new DoublePoint2D(point.X / divider, point.Y / divider);
+        }
+
+        public override string ToString()
+        {
+            return $"[{nameof(X)}: {X}, {nameof(Y)}: {Y}]";
         }
     }
 }

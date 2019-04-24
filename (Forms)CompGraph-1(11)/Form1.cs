@@ -9,7 +9,9 @@ using _Forms_CompGraph_1_11_.Labs.SecondLab;
 using _Forms_CompGraph_1_11_.Labs.ThirdLab;
 using _Forms_CompGraph_1_11_.Labs.FourthLab;
 using _Forms_CompGraph_1_11_.Labs.SixthLab;
+using _Forms_CompGraph_1_11_.Labs.SixthLab.Utils;
 using _Forms_CompGraph_1_11_.Utils;
+using DoublePoint3D = _Forms_CompGraph_1_11_.Utils.DoublePoint3D;
 
 namespace _Forms_CompGraph_1_11_
 {
@@ -20,7 +22,22 @@ namespace _Forms_CompGraph_1_11_
         private LabBase _labBase;
         private LabParameters _labParameters;
         private readonly HashSet<Control> _formatErrors;
-        private int _currentLab = 5;
+        private int _currentLab = 6;
+
+        readonly object[] objectTypes =
+        {
+            new ElementType {Type = typeof(AmbientLight)},
+            new ElementType {Type = typeof(DirectLight)},
+            new ElementType {Type = typeof(PointLight)},
+            new ElementType {Type = typeof(Sphere)},
+            new ElementType {Type = typeof(Hexahedron)}
+        };
+
+        class ElementType
+        {
+            public Type Type { get; set; }
+            public override string ToString() => Type.Name;
+        }
 
         public Form1()
         {
@@ -37,6 +54,9 @@ namespace _Forms_CompGraph_1_11_
             ClearImage();
             btnDraw_Click(null, null);
             UpdateImage();
+            ObjectTypesCB.Items.AddRange(objectTypes);
+
+            tabControlLabs.SelectedIndex = _currentLab - 1;
         }
 
 
@@ -66,6 +86,9 @@ namespace _Forms_CompGraph_1_11_
                     SetDefaultsForFourthLab();
                     break;
                 case 5:
+
+                    break;
+                case 6:
                     SetDefaultsForSixthLab();
                     break;
                 default:
@@ -97,6 +120,9 @@ namespace _Forms_CompGraph_1_11_
                     _labParameters = ParseFourthLabParameters();
                     break;
                 case 5:
+
+                    break;
+                case 6:
                     _labParameters = ParseSixthLabParameters();
                     break;
                 default:
@@ -118,6 +144,8 @@ namespace _Forms_CompGraph_1_11_
                 case 4:
                     break;
                 case 5:
+                    break;
+                case 6:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException($"{nameof(_currentLab)} hasn't been in 1-5 interval");
@@ -210,7 +238,7 @@ namespace _Forms_CompGraph_1_11_
             if (SplinePointsSortNeeded.Checked)
                 splinePoints.Sort();
 
-            var splinePow = (int)SplineDegreeNumericUpDown.Value;
+            var splinePow = (int) SplineDegreeNumericUpDown.Value;
 
             return new SecondLabParameters(splinePoints.ToArray(), splinePow);
         }
@@ -218,6 +246,7 @@ namespace _Forms_CompGraph_1_11_
         #endregion
 
         #region ThirdLab
+
         private void SetDefaultsForThirdLab()
         {
             FirstPresetThirdLab();
@@ -237,7 +266,7 @@ namespace _Forms_CompGraph_1_11_
                 try
                 {
                     areaPointsXY.Add(new DoublePoint2D(double.Parse(dgvAreaPoints.Rows[row].Cells[0].Value.ToString()),
-                     double.Parse(dgvAreaPoints.Rows[row].Cells[1].Value.ToString())));
+                        double.Parse(dgvAreaPoints.Rows[row].Cells[1].Value.ToString())));
                     areaPointZ.Add(double.Parse(dgvAreaPoints.Rows[row].Cells[2].Value.ToString()));
                 }
                 catch (NullReferenceException)
@@ -308,9 +337,11 @@ namespace _Forms_CompGraph_1_11_
             tbRotateX.Text = "0";
             tbRotateY.Text = "0";
         }
+
         #endregion
 
         #region FourthLab
+
         private void SetDefaultsForFourthLab()
         {
             _labBase = new FourthLab(_image);
@@ -399,20 +430,42 @@ namespace _Forms_CompGraph_1_11_
             dgvFigurePoints.Rows[4].Cells[0].Value = -100;
             dgvFigurePoints.Rows[4].Cells[1].Value = 0;
         }
+
         #endregion
 
         #region SixthLab
+
+        private SixthLabParameters ParseSixthLabParameters()
+        {
+            var parameters = new SixthLabParameters();
+            var objects = new object[ElementsLB.Items.Count];
+            ElementsLB.Items.CopyTo(objects, 0);
+            parameters.GraphicalObjects = objects.Where(x => x is GraphicalObject).Cast<GraphicalObject>().ToArray();
+            parameters.LightSources = objects.Where(x => x is LightSource).Cast<LightSource>().ToArray();
+            parameters.CameraPosition = new DoublePoint3D
+            {
+                X = double.Parse(CameraX.Text),
+                Y = double.Parse(CameraY.Text),
+                Z = double.Parse(CameraZ.Text)
+            };
+
+            parameters.CameraRotation = new DoublePoint2D
+            {
+                X = CameraXAngleTB.Value * Math.PI / 180,
+                Y = CameraYAngleTB.Value * Math.PI / 180
+            };
+
+            return parameters;
+        }
+
         private void SetDefaultsForSixthLab()
         {
             _labBase = new SixthLab(_image);
             _labParameters = ParseSixthLabParameters();
         }
 
-        private SixthLabParameters ParseSixthLabParameters()
-        {
-            return new SixthLabParameters();
-        }
         #endregion
+
         #endregion
 
         #region Events
@@ -506,5 +559,47 @@ namespace _Forms_CompGraph_1_11_
         }
 
         #endregion
+
+        private void AddElementBtn_Click(object sender, EventArgs e)
+        {
+            AddElement();
+        }
+
+        private void ElementsLB_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (ElementsLB.SelectedIndex >= 0)
+                ElementsLB.Items.RemoveAt(ElementsLB.SelectedIndex);
+        }
+
+        private void AddElement()
+        {
+            if (ObjectTypesCB.SelectedItem != null)
+            {
+                var elementType = ((ElementType) ObjectTypesCB.SelectedItem).Type;
+                var emptyElement = (IAddable) Activator.CreateInstance(elementType);
+                EditElement(emptyElement);
+            }
+        }
+
+        private void EditElement(IAddable element)
+        {
+            var editWindow = new EditElementForm(element);
+
+
+            if (editWindow.ShowDialog(this) == DialogResult.OK)
+            {
+                var newElement = editWindow.ReturnedElement;
+                ElementsLB.Items.Remove(element);
+                ElementsLB.Items.Add(newElement);
+            }
+
+            editWindow.Dispose();
+        }
+
+        private void ElementsLB_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char) Keys.Enter && ElementsLB.SelectedIndex >= 0)
+                EditElement((IAddable) ElementsLB.SelectedItem);
+        }
     }
 }

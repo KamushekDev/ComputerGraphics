@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Collections.Generic;
 using _Forms_CompGraph_1_11_.Utils;
 
 namespace _Forms_CompGraph_1_11_.Labs.ThirdLab
