@@ -57,6 +57,8 @@ namespace _Forms_CompGraph_1_11_
             ObjectTypesCB.Items.AddRange(objectTypes);
 
             tabControlLabs.SelectedIndex = _currentLab - 1;
+            CameraRotationXLbl.Text = CameraXAngleTB.Value.ToString();
+            CameraRotationYLbl.Text = CameraYAngleTB.Value.ToString();
         }
 
 
@@ -600,6 +602,16 @@ namespace _Forms_CompGraph_1_11_
         {
             if (e.KeyChar == (char) Keys.Enter && ElementsLB.SelectedIndex >= 0)
                 EditElement((IAddable) ElementsLB.SelectedItem);
+        }
+
+        private void CameraXAngleTB_ValueChanged(object sender, EventArgs e)
+        {
+            CameraRotationXLbl.Text = (sender as TrackBar)?.Value.ToString() ?? "0";
+        }
+
+        private void CameraYAngleTB_ValueChanged(object sender, EventArgs e)
+        {
+            CameraRotationYLbl.Text = (sender as TrackBar)?.Value.ToString() ?? "0";
         }
     }
 }

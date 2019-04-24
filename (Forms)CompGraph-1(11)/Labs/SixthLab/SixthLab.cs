@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using _Forms_CompGraph_1_11_.Labs.SixthLab.Utils;
 using _Forms_CompGraph_1_11_.Utils;
 
 namespace _Forms_CompGraph_1_11_.Labs.SixthLab
@@ -7,7 +8,7 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
     class SixthLab : LabBase
     {
         private const double Inf = double.MaxValue;
-        private ColorRGB BackGroundColor;
+        private ColorRGB BackGroundColor = new ColorRGB(0, 0, 0);
         private Sphere[] Spheres { get; set; }
         private LightSource[] LightSources { get; set; }
 
@@ -52,7 +53,7 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
             color = new ColorRGB(255, 0, 0); //Red
             specular = 500;
             reflection = 0.2f;
-            transparency = 0.3f;
+            transparency = 0f;
             Spheres[0] = new Sphere(center, radius, color, specular, reflection, transparency);
 
             center = new DoublePoint3D(2, 0, 4);
@@ -87,23 +88,24 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
                 throw new ArgumentException($"{nameof(labParameters)} has wrong type: {labParameters.GetType().Name}");
 
             Preset1();
-            RenderScene();
+
+            RenderScene(parameters.CameraPosition, parameters.CameraRotation);
         }
 
-        private void RenderScene()
+        private void RenderScene(DoublePoint3D position, DoublePoint2D rotation)
         {
             const double distance = 1;
             const byte recursionDepth = 3;
 
             var interval = new double[] { 0.0001, Inf };
-            var cameraPosition = new DoublePoint3D(0, 0, 0);// (0, 5, 2);
-            var cameraAngle = new DoublePoint2D(0, 0);// (Math.PI / 2, Math.PI);
+            var cameraPosition = position; //new DoublePoint3D(0, 0, 0);// (0, 5, 2);
+            var cameraAngle = rotation; //new DoublePoint2D(0, 0);// (Math.PI / 2, Math.PI);
 
             for (var x = 0; x < Source.Width; x++)
                 for (var y = 0; y < Source.Height; y++)
                 {
                     DoublePoint3D viewPortPoint = CanvasToViewport(new DoublePoint2D(x, y), distance).RotateX(cameraAngle.X).RotateY(cameraAngle.Y);
-                    ColorRGB color = TraceRay(cameraPosition, viewPortPoint, interval, recursionDerpth);
+                    ColorRGB color = TraceRay(cameraPosition, viewPortPoint, interval, recursionDepth);
                     Source.SetPixel(x, y, Color.FromArgb(color.R, color.G, color.B));
                 }
         }
