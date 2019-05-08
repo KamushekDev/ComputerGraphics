@@ -126,6 +126,25 @@ namespace _Forms_CompGraph_1_11_.Utils
             return true;
         }
 
+        public static bool DrawLine(Bitmap source,in DoublePoint2D first, in DoublePoint2D second, Color color)
+        {
+            var lineVector = new Vector2D((int)first.X + 1, (int)first.Y + 1, (int)second.X + 1, (int)second.Y + 1);
+            var vector = GetSourceCoordinates(source, in lineVector);
+
+            if (!IsPointInBitmap(source, in vector))
+                return false;
+
+            using (var graphics = Graphics.FromImage(source))
+            {
+                using (var pen = new Pen(color, 1))
+                {
+                    graphics.DrawLine(pen, vector.X0, vector.Y0, vector.X1, vector.Y1);
+                }
+            }
+
+            return true;
+        }
+
         public static bool DrawCircle(Bitmap source, Point center, int radius)
         {
             return DrawCircle(source, center, radius, Color.Black);

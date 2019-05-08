@@ -33,8 +33,10 @@ namespace _Forms_CompGraph_1_11_.Labs.SecondLab
                     return 1;
                 return 0;
             }
-            double a = (knots[order + degree] - knots[order]) == 0 ? 0 : (t - knots[order]) / (knots[order + degree] - knots[order]);
-            double b = (knots[order + degree + 1] - knots[order + 1]) == 0 ? 0 : (knots[order + degree + 1] - t) / (knots[order + degree + 1] - knots[order + 1]);
+            double a = (knots[order + degree] - knots[order]) == 0 ?
+                0 : (t - knots[order]) / (knots[order + degree] - knots[order]);
+            double b = (knots[order + degree + 1] - knots[order + 1]) == 0 ?
+                0 : (knots[order + degree + 1] - t) / (knots[order + degree + 1] - knots[order + 1]);
 
             return a * basisFunc(knots, order, degree - 1, t) + b * basisFunc(knots, order + 1, degree - 1, t);
         }
@@ -68,14 +70,13 @@ namespace _Forms_CompGraph_1_11_.Labs.SecondLab
             }
             knots[knots.Length - splainDegree - 1] = 1;
             for (int i = 1; i < (knots.Length - 2 * splainDegree-1); i++)
-                knots[i + splainDegree] = (float)(i + 1) / (float)(knots.Length - 2 * splainDegree + 1);
+                knots[i + splainDegree] = (i + 1) / (knots.Length - 2 * splainDegree + 1.0);
 
             DoublePoint2D v = new DoublePoint2D();
             double delta = 1 / 100.0;
             for (double t = 0; t < 1; t += delta)
             {
                 DoublePoint2D p = DeBoor(t, splainControlPoints, knots, splainDegree);
-                //if (v != null) { g.drawLine((int)v[0], (int)v[1], (int)p[0], (int)p[1]); }
                 if ((v.X != 0) && (v.Y != 0) && (p.X != 0) && (p.Y != 0))
                     Drawer.DrawLine(Source, new Vector2D((int)v.X, (int)v.Y, (int)p.X, (int)p.Y));
 
