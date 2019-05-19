@@ -7,6 +7,11 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab.Utils
         public DoublePoint3D Center { get; set; }
         public double Radius { get; set; }
 
+        public Sphere()
+        {
+            
+        }
+
         public Sphere(DoublePoint3D center, double radius, ColorRGB color, int specular, float reflective,
             float transparency) :
             base(color, specular, transparency, reflective)
