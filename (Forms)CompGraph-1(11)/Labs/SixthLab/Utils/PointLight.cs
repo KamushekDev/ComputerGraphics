@@ -6,6 +6,11 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab.Utils
     {
         public DoublePoint3D Coord { get; set; }
 
+        public PointLight()
+        {
+            
+        }
+
         public PointLight(DoublePoint3D coord, float intense):base(intense)
         {
             Coord = coord;

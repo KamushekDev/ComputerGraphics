@@ -9,6 +9,11 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab.Utils
 
         public DoublePoint2D Rotation { get; set; }
 
+        public Hexahedron()
+        {
+            
+        }
+
         public Hexahedron(DoublePoint3D[] points, DoublePoint2D rotation, ColorRGB color, int specular,
             float transparency, float reflective) :
             base(color, specular, transparency, reflective)

@@ -9,6 +9,10 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab.Utils
         public float Transparency { get; set; }
         public float Reflective { get; set; }
 
+        protected GraphicalObject()
+        {
+        }
+
         protected GraphicalObject(ColorRGB color, int specular, float transparency, float reflective)
         {
             Color = color;
