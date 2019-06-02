@@ -1,8 +1,8 @@
 ﻿namespace _Forms_CompGraph_1_11_.Labs.SixthLab.Utils
 {
-    class AmbientLight:LightSource
+    class AmbientLight : LightSource
     {
-        public AmbientLight(float intensity):base(intensity)
+        public AmbientLight(float intense) : base(intense)
         {
         }
 

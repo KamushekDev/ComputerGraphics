@@ -8,7 +8,7 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
     class SixthLab : LabBase
     {
         private const double Inf = double.MaxValue;
-        private ColorRGB BackGroundColor = new ColorRGB(0, 0, 0);
+        private readonly ColorRGB BackGroundColor = new ColorRGB(0, 0, 0);
         private GraphicalObject[] GraphicalObjects { get; set; }
         private LightSource[] LightSources { get; set; }
 
@@ -17,67 +17,69 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
         }
 
         #region Presets
-        private void Preset1()
-        {
-            BackGroundColor = new ColorRGB(0, 0, 0);
-            //Light Sources
-            LightSources = new LightSource[3];
-            DoublePoint3D point;
-            float intensity;
-            string type;
+        //private void Preset1()
+        //{
+        //    BackGroundColor = new ColorRGB(0, 0, 0);
+        //    //Light Sources
+        //    LightSources = new LightSource[3];
+        //    DoublePoint3D point;
+        //    float intensity;
+        //    string type;
 
-            intensity = 0.2f;
-            LightSources[0] = new AmbientLight(intensity);
+        //    intensity = 0.2f;
+        //    LightSources[0] = new LightSource(intensity);
 
-            point = new DoublePoint3D(2, 1, 0);
-            intensity = 0.6f;
-            LightSources[1] = new PointLight(point, intensity);
+        //    point = new DoublePoint3D(2, 1, 0);
+        //    intensity = 0.6f;
+        //    type = "Point";
+        //    LightSources[1] = new LightSource(point, intensity, type);
 
-            point = new DoublePoint3D(1, 4, 4);
-            intensity = 0.2f;
-            LightSources[2] = new DirectLight(point, intensity);
+        //    point = new DoublePoint3D(1, 4, 4);
+        //    intensity = 0.2f;
+        //    type = "Directional";
+        //    LightSources[2] = new LightSource(point, intensity, type);
 
-            //Spheres
-            GraphicalObjects = new Sphere[4];
-            DoublePoint3D center;
-            double radius;
-            ColorRGB color;
-            int specular;
-            float reflection;
-            float transparency;
+        //    //Spheres
+        //    Spheres = new Sphere[4];
+        //    DoublePoint3D center;
+        //    double radius;
+        //    ColorRGB color;
+        //    int specular;
+        //    float reflection;
+        //    float transparency;
 
-            center = new DoublePoint3D(0, -1, 3);
-            radius = 1;
-            color = new ColorRGB(255, 0, 0); //Red
-            specular = 500;
-            reflection = 0.2f;
-            transparency = 0f;
-            GraphicalObjects[0] = new Sphere(center, radius, color, specular, reflection, transparency);
+        //    center = new DoublePoint3D(0, -1, 3);
+        //    radius = 1;
+        //    color = new ColorRGB(255, 0, 0); //Red
+        //    specular = 500;
+        //    reflection = 0.2f;
+        //    transparency = 0f;
+        //    Spheres[0] = new Sphere(center, radius, color, specular, reflection, transparency);
 
-            center = new DoublePoint3D(2, 0, 4);
-            radius = 1;
-            color = new ColorRGB(0, 0, 255); //Blue
-            specular = 500;
-            reflection = 0.3f;
-            transparency = 0f;
-            GraphicalObjects[1] = new Sphere(center, radius, color, specular, reflection, transparency);
+        //    center = new DoublePoint3D(2, 0, 4);
+        //    radius = 1;
+        //    color = new ColorRGB(0, 0, 255); //Blue
+        //    specular = 500;
+        //    reflection = 0.3f;
+        //    transparency = 0f;
+        //    Spheres[1] = new Sphere(center, radius, color, specular, reflection, transparency);
 
-            center = new DoublePoint3D(-2, 0, 4);
-            radius = 1;
-            color = new ColorRGB(0, 255, 0); //Green
-            specular = 10;
-            reflection = 0.4f;
-            transparency = 0f;
-            GraphicalObjects[2] = new Sphere(center, radius, color, specular, reflection, transparency);
+        //    center = new DoublePoint3D(-2, 0, 4);
+        //    radius = 1;
+        //    color = new ColorRGB(0, 255, 0); //Green
+        //    specular = 10;
+        //    reflection = 0.4f;
+        //    transparency = 0f;
+        //    Spheres[2] = new Sphere(center, radius, color, specular, reflection, transparency);
 
-            center = new DoublePoint3D(0, -5001, 0);
-            radius = 5000;
-            color = new ColorRGB(255, 255, 0); //Yellow
-            specular = 1000;
-            reflection = 0.5f;
-            transparency = 0f;
-            GraphicalObjects[3] = new Sphere(center, radius, color, specular, reflection, transparency );
-        }
+        //    center = new DoublePoint3D(0, -5001, 0);
+        //    radius = 5000;
+        //    color = new ColorRGB(255, 255, 0); //Yellow
+        //    specular = 1000;
+        //    reflection = 0.5f;
+        //    transparency = 0f;
+        //    Spheres[3] = new Sphere(center, radius, color, specular, reflection, transparency);
+        //}
         #endregion
 
         public override void Draw(LabParameters labParameters)
@@ -85,13 +87,11 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
             if (!(labParameters is SixthLabParameters parameters))
                 throw new ArgumentException($"{nameof(labParameters)} has wrong type: {labParameters.GetType().Name}");
 
-            if (parameters.Initial)
-                Preset1();
-            else
-            {
-                GraphicalObjects = parameters.GraphicalObjects;
-                LightSources = parameters.LightSources;
-            }
+            //Preset1();
+
+            GraphicalObjects = parameters.GraphicalObjects;
+            LightSources = parameters.LightSources;
+
             RenderScene(parameters.CameraPosition, parameters.CameraRotation);
         }
 

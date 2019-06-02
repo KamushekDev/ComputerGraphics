@@ -4,9 +4,9 @@
     {
         public float Intense { get; set; }
 
-        public LightSource(float intensity)
+        protected LightSource(float intense)
         {
-            Intense = intensity;
+            Intense = intense;
         }
 
         public override string ToString()

@@ -6,7 +6,7 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab.Utils
     {
         public DoublePoint3D Vector { get; set; }
 
-        public DirectLight(DoublePoint3D vector, float intensity):base(intensity)
+        public DirectLight(DoublePoint3D vector, float intense):base(intense)
         {
             Vector = vector;
         }

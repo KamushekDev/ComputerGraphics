@@ -9,6 +9,14 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab.Utils
         public float Transparency { get; set; }
         public float Reflective { get; set; }
 
+        protected GraphicalObject(ColorRGB color, int specular, float transparency, float reflective)
+        {
+            Color = color;
+            Specular = specular;
+            Transparency = transparency;
+            Reflective = reflective;
+        }
+
         public override string ToString()
         {
             return
