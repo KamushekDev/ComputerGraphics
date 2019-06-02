@@ -5,6 +5,7 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
 {
     class SixthLabParameters : LabParameters
     {
+        public bool Initial { get; set; }
         public LightSource[] LightSources { get; set; }
         public GraphicalObject[] GraphicalObjects { get; set; }
 

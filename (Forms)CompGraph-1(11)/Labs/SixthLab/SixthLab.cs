@@ -176,18 +176,18 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
                 }
                 else
                 {
-                    var count = 0;
+                    //var count = 0;
                     var hex = GraphicalObjects[i] as Hexahedron;
 
                     //First edge
                     var mass = new DoublePoint3D[] { hex.Points[0].RotateX(hex.Rotation.X).RotateY(hex.Rotation.Y), hex.Points[1].RotateX(hex.Rotation.X).RotateY(hex.Rotation.Y), hex.Points[2].RotateX(hex.Rotation.X).RotateY(hex.Rotation.Y), hex.Points[3].RotateX(hex.Rotation.X).RotateY(hex.Rotation.Y) };
-                    var intersection = IntersectRayEdge(mass, cameraPosition, viewPortPoint);
+                    var intersection = Intercept(viewPortPoint, cameraPosition, mass);//IntersectRayEdge(mass, cameraPosition, viewPortPoint);
                     if ((intersection > 1) && (intersection < closest.Point))
                     {
                         closest.Point = intersection;
                         closest.Object = i;
                         closest.Normal = (mass[1] - mass[0]).VecMultiply(mass[2] - mass[0]);
-                        count++;
+                        //count++;
                     }
 
                     //Second edge
@@ -398,6 +398,58 @@ namespace _Forms_CompGraph_1_11_.Labs.SixthLab
         private DoublePoint3D ReflectRay(DoublePoint3D fallingVector, DoublePoint3D normalVector)
         {
             return 2 * normalVector * normalVector.ScalMultiply(fallingVector) - fallingVector;
+        }
+        #endregion
+
+        #region Poligonism
+        public double Intercept(DoublePoint3D vector,DoublePoint3D normal, DoublePoint3D[] vertex)
+        {
+            double d = Dot(normal, vector);
+            if (d > 0)
+            {
+                double k = Dot(normal, vertex[0]) / d;
+                DoublePoint3D point = k*vector;//new DoublePoint3D( vector.X * k, vector.Y * k, vector.Z * k );
+
+                DoublePoint3D u = Sub(vertex[0], vertex[1]);
+                DoublePoint3D v = Sub(vertex[0], vertex[2]);
+                DoublePoint3D w = Sub(vertex[0], point);
+
+                double uu = Dot(u, u);
+                double uv = Dot(u, v);
+                double vv = Dot(v, v);
+                double wu = Dot(w, u);
+                double wv = Dot(w, v);
+                double D = uv * uv - uu * vv;
+                double s, t;
+                s = (uv * wv - vv * wu) / D;
+                if (s < 0.0 || s > 1.0)
+                {
+                    return -1;
+                }
+                else
+                {
+                    t = (uv * wu - uu * wv) / D;
+                    if (t < 0.0 || (s + t) > 1.0)
+                    {
+                        return -1;
+                    }
+                    else
+                    {
+                        return point.X / vector.X;
+                    }
+                }
+            }
+            return -1;
+        }
+
+        public static double Dot(DoublePoint3D firstVec, DoublePoint3D secondVec)
+        {
+            return firstVec.X * secondVec.X + firstVec.Y * secondVec.Y + firstVec.Z * secondVec.Z;
+        }
+
+        public static DoublePoint3D Sub(DoublePoint3D firstPoint, DoublePoint3D secondPoint)
+        {
+            return secondPoint - firstPoint;
         }
         #endregion
 
