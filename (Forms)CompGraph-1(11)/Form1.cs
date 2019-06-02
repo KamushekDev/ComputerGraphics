@@ -510,15 +510,32 @@ namespace _Forms_CompGraph_1_11_
                 1000,
                 0.5f,
                 0f);
+            /*elements[6] = new Hexahedron(
+                new DoublePoint3D[] {
+                new DoublePoint3D(-1, -1, 4),
+                new DoublePoint3D(-1, 1, 4),
+                new DoublePoint3D(1, 1, 4),
+                new DoublePoint3D(1, -1, 4),
+                new DoublePoint3D(0, 0, 0),
+                new DoublePoint3D(0, 0, 0),
+                new DoublePoint3D(0, 0, 0),
+                new DoublePoint3D(0, 0, 0)
+                },
+                new DoublePoint2D(0, 0),
+                new ColorRGB(255,0,0),
+                1000,
+                0f,
+                0f
+                );*/
 
             ElementsLB.Items.AddRange(elements);
 
             CameraX.Text = "0";
-            CameraY.Text = "5";
-            CameraZ.Text = "2";
+            CameraY.Text = "0";
+            CameraZ.Text = "0";
 
-            CameraXAngleTB.Value = 90;
-            CameraYAngleTB.Value = 180;
+            CameraXAngleTB.Value = 0;
+            CameraYAngleTB.Value = 0;
 
             _labParameters = ParseSixthLabParameters();
             (_labParameters as SixthLabParameters).Initial = true;
