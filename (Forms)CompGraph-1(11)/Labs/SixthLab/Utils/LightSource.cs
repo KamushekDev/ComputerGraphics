@@ -4,6 +4,11 @@
     {
         public float Intense { get; set; }
 
+        protected LightSource()
+        {
+            
+        }
+
         protected LightSource(float intense)
         {
             Intense = intense;

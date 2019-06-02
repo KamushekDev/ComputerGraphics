@@ -2,6 +2,10 @@
 {
     class AmbientLight : LightSource
     {
+        public AmbientLight()
+        {
+        }
+
         public AmbientLight(float intense) : base(intense)
         {
         }

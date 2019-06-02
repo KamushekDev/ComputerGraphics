@@ -89,7 +89,7 @@ namespace _Forms_CompGraph_1_11_
                     SetDefaultsForFourthLab();
                     break;
                 case 5:
-
+                    //todo: дефолтные параметры для 5 лабы
                     break;
                 case 6:
                     SetDefaultsForSixthLab();
@@ -123,7 +123,7 @@ namespace _Forms_CompGraph_1_11_
                     _labParameters = ParseFourthLabParameters();
                     break;
                 case 5:
-
+                    //todo: парсинг параметров для 5 лабы
                     break;
                 case 6:
                     _labParameters = ParseSixthLabParameters();
