@@ -16,12 +16,12 @@ namespace _Forms_SharpGL_Textures
 
         public Form1()
         {
-            InitializeComponent();            
+            InitializeComponent();
             OpenGL gl = openGLControl1.OpenGL;
 
             gl.Enable(OpenGL.GL_TEXTURE_2D); //Режим 2-мерных текстур
-            firstTexture.Create(gl, "firstTexture.png");
-            secondTexture.Create(gl, "secondTexture.jpg");
+            firstTexture.Create(gl, "../../../firstTexture.png");
+            secondTexture.Create(gl, "../../../secondTexture.jpg");
         }
 
         private void Form1_Load(object sender, EventArgs e)
