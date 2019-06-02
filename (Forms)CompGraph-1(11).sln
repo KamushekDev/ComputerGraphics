@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "(Forms)CompGraph-1(11)", "(Forms)CompGraph-1(11)\(Forms)CompGraph-1(11).csproj", "{8575E739-C809-4F6C-B544-E0FA9590625A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "(Forms)SharpGL_Textures", "..\Projects PC\(Forms)SharpGL_Textures\(Forms)SharpGL_Textures\(Forms)SharpGL_Textures.csproj", "{16121080-B9E9-4DE1-9129-1CCA027F022C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "(Forms)SharpGL_Textures", "(Forms)SharpGL_Textures\(Forms)SharpGL_Textures.csproj", "{16121080-B9E9-4DE1-9129-1CCA027F022C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
